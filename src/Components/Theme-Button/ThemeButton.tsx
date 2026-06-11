@@ -1,0 +1,53 @@
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon, faSun, faUsersSlash } from "@fortawesome/free-solid-svg-icons";
+
+type Theme = "light" | "dark";
+
+
+interface Props {
+    mode?: Theme;
+
+}
+
+const ThemeButton: React.FC<Props> = ({ mode = "dark" }) => {
+    const [theme, setTheme] = useState(mode)
+    return (
+        <div 
+         onClick={() =>
+                    setTheme(theme === "dark" ? "light" : "dark")
+                }
+        className={` cursor-pointer relative w-[72px] h-[30px] rounded-full border-[1.8px] border-[#C89A3C] bg-gradient-to-r from-black to-[#1D2027] flex items-center justify-between px-2 shadow-[0_0_25px_rgba(212,175,55,.25)] `}>
+
+            <FontAwesomeIcon
+                icon={faMoon}
+                className={`text-[12px] ${theme === "light"
+                    ? "text-gray-500 transition delay-300 ease-in-out"
+                    : "text-[#D4AF37] transition delay-300 ease-in-out"
+                    }`}
+            />
+
+            <div
+                onClick={() =>
+                    setTheme(theme === "dark" ? "light" : "dark")
+                }
+                className={` w-[17px] h-[17px] rounded-full border-[1.5px]
+                border-[#D4AF37] bg-[#15181F] flex items-center justify-center
+                `}
+            >
+                <div className="w-[9px] h-[9px] rounded-full bg-[#F2E6CF]" />
+            </div>
+
+            <FontAwesomeIcon
+                icon={faSun}
+                className={`text-[12px] ${theme === "light"
+                    ? "text-[#D4AF37] transition delay-300 ease-in-out"
+                    : "text-gray-500 transition delay-300 ease-in-out"
+                    }`}
+            />
+
+        </div>
+    );
+};
+
+export default ThemeButton;
