@@ -24,30 +24,30 @@ const HeroSection: React.FC<Props> = (props) => {
 
             {/* Heading */}
             <div className="mt-6 font-mono uppercase leading-none">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
                 UNDERSTAND ANY
               </h1>
 
               <div className="inline-block bg-[#F3AB0C] text-black px-2 sm:px-3 py-1 border-2 border-black shadow-[6px_6px_0px_#000] mt-2">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
                   RESEARCH PAPER
                 </h1>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mt-2 text-white">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 text-white">
                 IN MINUTES
               </h1>
             </div>
 
             {/* Description */}
             <div className="mt-8 max-w-lg text-[#F2E6CF] font-mono text-sm sm:text-base leading-7 sm:leading-8">
-              <p>
+              <p className="text-xs sm:text-sm">
                 Stop drowning in academic jargon. PaperMind AI deconstructs
                 complex PDFs into actionable insights, clear summaries, and
                 interactive knowledge graphs.
               </p>
 
-              <p className="mt-4">
+              <p className="mt-4 test-xs sm:text-sm">
                 Built for high-performance researchers.
               </p>
             </div>

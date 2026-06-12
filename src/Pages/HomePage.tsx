@@ -3,6 +3,8 @@ import React from "react";
 // import book from "../Images/rainbow.png";
 import HeroSection from "./HeroSection.tsx";
 import OurServices from "./OurServices.tsx";
+import Testimonials from "./Testimonials.tsx";
+import Footer from "./Footer.tsx";
 
 interface Props {
 
@@ -13,6 +15,8 @@ const HomePage: React.FC<Props> = (props) => {
     <div>
       <HeroSection />
       <OurServices />
+      <Testimonials/>
+      <Footer/>
     </div>
 
   );
