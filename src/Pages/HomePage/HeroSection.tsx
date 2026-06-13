@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../Components/Button/Button.tsx";
-import book from "../Images/rainbow.png";
+import Button from "../../Components/Button/Button.tsx";
+import logo from "../../Images/rainbow.png";
 
 interface Props {
 
@@ -82,7 +82,7 @@ const HeroSection: React.FC<Props> = (props) => {
               {/* Image */}
               <div className="border-4 border-black overflow-hidden w-[260px] sm:w-[340px] md:w-[430px] h-[200px] sm:h-[270px] md:h-[340px]">
                 <img
-                  src={book}
+                  src={logo}
                   alt="Research Paper"
                   className="w-full h-full object-cover"
                 />
