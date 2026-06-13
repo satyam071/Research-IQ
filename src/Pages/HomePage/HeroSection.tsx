@@ -1,12 +1,12 @@
 import React from "react";
 import Button from "../../Components/Button/Button.tsx";
 import logo from "../../Images/rainbow.png";
+import  {useNavigate}  from "react-router-dom";
 
-interface Props {
 
-}
 
-const HeroSection: React.FC<Props> = (props) => {
+const HeroSection: React.FC = () => {
+  const navigate=useNavigate();
   return (
     <section className="min-h-screen bg-[#0B0B12] text-white px-4 sm:px-6 md:px-8 py-10 md:py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -55,11 +55,15 @@ const HeroSection: React.FC<Props> = (props) => {
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mt-10">
 
-              <Button
-                className="bg-[#E9440A] text-black border-2 border-[#484848] px-8 py-3 font-mono font-bold shadow-[6px_6px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition rounded-none"
+              <button
+                onClick={
+                  ()=>navigate('/upload')
+                }
+                
+                className="bg-[#E9440A] text-black border-2 border-[#484848] px-8 py-3 font-mono font-bold shadow-[6px_6px_0px_#000] hover:translate-x-1 hover:translate-y-0.5 hover:shadow-none transition rounded-none cursor-pointer "
               >
                 START NEW RESEARCH
-              </Button>
+              </button>
 
               <Button
                 className="border-2 border-white text-white bg-transparent px-8 py-3 font-mono font-bold shadow-[6px_6px_0px_#000] hover:bg-transparent hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition rounded-none"

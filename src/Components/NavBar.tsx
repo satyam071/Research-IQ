@@ -18,9 +18,9 @@ const NavBar: React.FC<Props> = () => {
     const [open, setOpen] = useState(false);
 
     return (
-        <nav className={`relative mx-2 md:mx-4 h-[80px] md:h-[105px] rounded-[20px] md:rounded-[25px] border   px-4 md:px-8 flex items-center justify-between  transition-all duration-300
+        <nav className={`relative mx-2 md:mx-4 h-[80px] md:h-[105px] rounded-[20px] md:rounded-[25px] border-2   px-4 md:px-8 flex items-center justify-between  transition-all duration-300
             ${theme === "light"
-                ? "bg-[#F2E6CF] border-[#111827] shadow-[0_0_20px_rgba(0,0,0,0.15) "
+                ? "bg-[#faecd3] border-[#111827] shadow-[0_0_20px_rgba(0,0,0,0.15) "
                 : "bg-black border-[#1f1f1f] shadow-[0_0_20px_rgba(255,255,255,0.05)]"
             }`}>
 

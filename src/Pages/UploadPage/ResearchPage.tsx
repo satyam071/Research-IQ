@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { UploadCloud, FileText, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { ThemeContextData } from "../../Context/ThemeContext";
+
 
 const ResearchPage = () => {
     const [dragging, setDragging] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [isUploaded, setIsUploaded] = useState(false)
+    const { theme, setTheme } = useContext(ThemeContextData);
 
     const handleFiles = (incomingFiles: FileList | null) => {
         if (!incomingFiles) return;
@@ -23,7 +26,7 @@ const ResearchPage = () => {
     const removeFile = () => {
         setFile(null);
     };
-    const Uploaded =(elem)=>{
+    const Uploaded = (elem) => {
         setIsUploaded(true)
         console.log(elem)
     }
@@ -32,17 +35,29 @@ const ResearchPage = () => {
 
 
     return (
-        <section className="bg-black min-h-screen flex items-center justify-center px-5 py-16 text-[#F2E6CF]">
+        <section className={`min-h-screen flex items-center justify-center px-5 py-16 transition-all delay-300
+            ${theme === "light"
+                ? "bg-[#F2E6CF] text-black "
+                : "bg-[#0B0B12] text-[#F2E6CF] "
+            }
+        `}>
 
             <div className="max-w-5xl w-full">
 
                 {/* Heading */}
                 <div className="mb-8">
-                    <h1 className="font-archivo text-3xl md:text-4xl uppercase tracking-[3px] mb-3">
+                    <h1 className={`font-archivo text-3xl md:text-4xl uppercase tracking-[3px] mb-3
+                        
+                        `}>
                         INGEST RESEARCH
                     </h1>
 
-                    <p className="text-sm text-gray-400 leading-6 max-w-xl">
+                    <p className={`text-sm  leading-6 max-w-xl
+                         ${theme === "light"
+                            ? " text-black "
+                            : "text-[#F2E6CF] "
+                        }
+                        `}>
                         Upload your PDF manuscripts for deep neural processing and
                         semantic analysis. Our AI extracts core insights and citations
                         instantly.
@@ -129,10 +144,10 @@ const ResearchPage = () => {
                 font-bold
                 border-[3px]
                 border-black
-                shadow-[5px_5px_0px_black]
-                hover:translate-x-[3px]
-                hover:translate-y-[3px]
-                hover:shadow-none
+                
+                hover:translate-x-[6px]
+                hover:translate-y-[6px]
+                hover:shadow-[5px_5px_0px_gray]
                 duration-200
               "
                             >
@@ -151,13 +166,15 @@ const ResearchPage = () => {
                                 <motion.div
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="
-                    mt-8
-                    flex items-center justify-between
-                    bg-[#111]
-                    border-2 border-[#2BB4A0]
-                    p-2
-                  "
+                                    className={`
+                                                 mt-8
+                                                    flex items-center justify-between
+                                                    bg-[#111]
+                                                    border-2 border-[#2BB4A0]
+                                                    p-2
+                                                    bg-black
+                                                    `}
+
                                 >
                                     <div className="flex items-center gap-2">
 
@@ -194,11 +211,11 @@ const ResearchPage = () => {
                                                         font-bold
                                                         border-[3px]
                                                         border-black
-                                                        shadow-[5px_5px_0px_black]
+                                                        
                                                         hover:border-[#F2E6CF]
                                                         transition-all
                                                         ease-in-out
-                                                        hover:shadow-none
+                                                        
                                                         duration-200
               "
                                     >
@@ -208,7 +225,7 @@ const ResearchPage = () => {
                                             // type="file"
                                             // accept=".pdf"
                                             hidden
-                                            onClick={()=>Uploaded(file)}
+                                            onClick={() => Uploaded(file)}
                                         />
                                     </label>
                                 </motion.div>
