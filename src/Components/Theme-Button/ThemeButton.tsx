@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun, faUsersSlash } from "@fortawesome/free-solid-svg-icons";
+import { ThemeContextData } from "../../Context/ThemeContext";
 
-type Theme = "light" | "dark";
+// type Theme = "light" | "dark";
 
 
-interface Props {
-    mode?: Theme;
+// interface Props {
+//     mode?: useContext(ThemeContextData);
 
-}
+// }
 
-const ThemeButton: React.FC<Props> = ({ mode = "dark" }) => {
-    const [theme, setTheme] = useState(mode)
+const ThemeButton: React.FC = () => {
+    const { theme, setTheme } = useContext(ThemeContextData);
+
+    // const [theme, setTheme] = useState(mode)
     return (
-        <div 
-         onClick={() =>
-                    setTheme(theme === "dark" ? "light" : "dark")
-                }
-        className={` cursor-pointer relative w-[72px] h-[30px] rounded-full border-[1.8px] border-[#C89A3C] bg-gradient-to-r from-black to-[#1D2027] flex items-center justify-between px-2 shadow-[0_0_25px_rgba(212,175,55,.25)] `}>
+        <div
+            onClick={() =>
+                setTheme(theme === "dark" ? "light" : "dark")
+            }
+            className={` cursor-pointer relative w-[72px] h-[30px] rounded-full border-[1.8px] border-[#C89A3C] bg-gradient-to-r from-black to-[#1D2027] flex items-center justify-between px-2 shadow-[0_0_25px_rgba(212,175,55,.25)] `}>
 
             <FontAwesomeIcon
                 icon={faMoon}
