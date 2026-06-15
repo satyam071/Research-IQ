@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UploadCloud, FileText, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { Navigate } from "react-router-dom";
 import { ThemeContextData } from "../../Context/ThemeContext";
 import { UploadContextData } from "../../Context/UploadContext";
 
@@ -10,7 +9,7 @@ const UploadSec = () => {
     const [dragging, setDragging] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     // const [isUploaded, setIsUploaded] = useState(false)
-    const { theme, setTheme } = useContext(ThemeContextData);
+    const { theme } = useContext(ThemeContextData);
     const { isUploaded, setIsUploaded } = useContext(UploadContextData);
 
     const handleFiles = (incomingFiles: FileList | null) => {

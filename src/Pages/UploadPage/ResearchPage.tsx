@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import UploadSec from "./UploadSec";
 import { UploadContextData } from "../../Context/UploadContext";
-import ExtractedData from "./ExtractedData";
+import ResponsePage from "./ResponsePage";
 
 
 interface Props {
@@ -14,7 +14,7 @@ const ResearchPage: React.FC<Props> = (props) => {
     return (
         <div>
             {isUploaded ?
-                <ExtractedData/>
+                <ResponsePage />
 
 
 
