@@ -3,11 +3,15 @@ import { UploadCloud, FileText, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { ThemeContextData } from "../../Context/ThemeContext";
 import { UploadContextData } from "../../Context/UploadContext";
+import { UploadProviderContextData } from "../../Context/UploadProviderContext";
+
 
 
 const UploadSec = () => {
     const [dragging, setDragging] = useState(false);
-    const [file, setFile] = useState<File | null>(null);
+    // const [file, setFile] = useState<File | null>(null);
+      const {pdfFile, setPdfFile } = useContext(UploadProviderContextData);
+
     // const [isUploaded, setIsUploaded] = useState(false)
     const { theme } = useContext(ThemeContextData);
     const { isUploaded, setIsUploaded } = useContext(UploadContextData);
@@ -22,11 +26,11 @@ const UploadSec = () => {
             return;
         }
 
-        setFile(selectedFile);
+        setPdfFile(selectedFile);
     };
 
     const removeFile = () => {
-        setFile(null);
+        setPdfFile(null);
     };
     // useEffect(() => {
     //     console.log("Updated value:", isUploaded);
@@ -36,9 +40,9 @@ const UploadSec = () => {
     //     setIsUploaded(true)
     //     console.log(isUploaded)
     // }
-    const Uploaded = (file) => {
+    const Uploaded = (pdfFile) => {
         setIsUploaded(true);
-        console.log(file, "is", isUploaded)
+        console.log(pdfFile, "is", isUploaded)
 
         // Do whatever you wanted to do
 
@@ -173,7 +177,7 @@ const UploadSec = () => {
                             </label>
 
                             {/* Uploaded File */}
-                            {file && (
+                            {pdfFile && (
                                 <motion.div
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -196,11 +200,11 @@ const UploadSec = () => {
 
                                         <div>
                                             <p className="text-xs text-[#F2E6CF] max-w-[150px] truncate">
-                                                {file.name}
+                                                {pdfFile.name}
                                             </p>
 
                                             <p className="text-[10px] text-gray-500">
-                                                {(file.size / 1024 / 1024).toFixed(2)} MB
+                                                {(pdfFile.size / 1024 / 1024).toFixed(2)} MB
                                             </p>
                                         </div>
                                     </div>
@@ -212,7 +216,7 @@ const UploadSec = () => {
                                         <Trash2 size={16} />
                                     </button>
                                     <button
-                                        onClick={() => Uploaded(file)}
+                                        onClick={() => Uploaded(pdfFile)}
                                         className="
                                                         cursor-pointer
                                                         bg-[#F3AB0C]

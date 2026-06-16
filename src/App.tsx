@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import HomePage from "./Pages/HomePage/HomePage";
 import NavBar from "./Components/NavBar";
+import Footer from "./Pages/HomePage/Footer";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Error404 from "./Pages/Error404";
 import ResearchPage from "./Pages/UploadPage/ResearchPage";
@@ -26,6 +27,7 @@ const App: React.FC<Props> = (props) => {
         <Route path="/*" element={<Error404 />} />
 
       </Routes>
+      <Footer/>
       {/* <HomePage /> */}
     </div>
   );

@@ -16,7 +16,6 @@ const HomePage: React.FC<Props> = (props) => {
       <HeroSection />
       <OurServices />
       <Testimonials/>
-      <Footer/>
     </div>
 
   );

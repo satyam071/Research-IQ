@@ -1,26 +1,75 @@
 // ResponsePage.tsx
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ThemeContextData } from "../../Context/ThemeContext";
 import SummerySection from "../../Components/SummerySection";
 import ChatSection from "../../Components/ChatSection";
+import { Document, Page, pdfjs } from "react-pdf";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+
+
+import { UploadProviderContextData } from "../../Context/UploadProviderContext";
+
+
+
+// import { Document, Page, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+interface Props {
+    pdfFile: File;
+}
+// function PdfViewer() {
+//     return (
+//         <Document file={pdfFile}>
+//             <Page pageNumber={1} />
+//         </Document>
+//     );
+// }
 
 const ResponsePage: React.FC = () => {
+    const { pdfFile } = useContext(UploadProviderContextData);
     const [tab, setTab] = useState<"chat" | "summary">("summary");
     const { theme } = useContext(ThemeContextData);
+    console.log(pdfFile)
+    const [numPages, setNumPages] = useState(0);
+    const [scale, setScale] = useState(0.8);
+    const [pageWidth, setPageWidth] = useState(300);
+
+    useEffect(() => {
+        const updateWidth = () => {
+            if (window.innerWidth < 640) {
+                setPageWidth(window.innerWidth - 30);
+            } else if (window.innerWidth < 1024) {
+                setPageWidth(550);
+            } else {
+                setPageWidth(700);
+            }
+        };
+
+        updateWidth();
+
+        window.addEventListener("resize", updateWidth);
+
+        return () => window.removeEventListener("resize", updateWidth);
+    }, []);
+
 
     return (
-        <div className="min-h-screen p-3">
+        <div className="min-h-full lg:h-full flex-1 overflow-auto p-3">
             <div
                 className={`
                     min-h-[calc(100vh-24px)]
-                    border-[3px]
-                    flex
+                    lg:h-[calc(100vh-24px)]
+                    px-5
+                    pt-9
                     flex-col
                     lg:flex-row
-
-                    lg:h-full
                     lg:overflow-hidden
+                    w-full 
+                    h-full 
+                    flex 
+                    justify-center
 
                     ${theme === "light"
                         ? "bg-[#F2E6CF] text-black border-black"
@@ -29,74 +78,79 @@ const ResponsePage: React.FC = () => {
                 `}
             >
                 {/* PDF SECTION */}
-                <div
-                    className="
+                <div className="flex flex-col
+
                         w-full
-                        lg:w-[52%]
+                        lg:w-[50%]
 
-                        flex
-                        flex-col
-                        min-h-0
+                        min-h-[400px]
+                        max-h-[500px]
 
-                        border-b-[3px]
-                        lg:border-b-0
-                        lg:border-r-[3px]
+                        lg:h-full
+                        lg:max-h-none
 
-                        border-black
-                    "
-                >
-                    {/* Header */}
-                    <div className="h-10 border-b-[3px] border-black px-3 flex items-center justify-between shrink-0">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#C79A1B] border-2 flex items-center justify-center text-[9px] font-bold">
-                                AI
-                            </div>
+                        overflow-hidden">
 
-                            <h1 className="text-xs font-bold tracking-wide uppercase">
-                                Paper Analysis: Neural Architectures 2024
-                            </h1>
-                        </div>
+                    {/* Toolbar */}
+                    <div className="sticky top-0 z-10  border-b p-2 flex items-center justify-center gap-4">
 
-                        <div className="flex gap-3 text-xs">
-                            ○ ○ ■
-                        </div>
+                        <button
+                            className="border px-3 py-1"
+                            onClick={() =>
+                                setScale(prev => Math.max(0.5, prev - 0.1))
+                            }
+                        >
+                            −
+                        </button>
+
+                        <span>{Math.round(scale * 100)}%</span>
+
+                        <button
+                            className="border px-3 py-1"
+                            onClick={() =>
+                                setScale(prev => Math.min(3, prev + 0.1))
+                            }
+                        >
+                            +
+                        </button>
+
                     </div>
 
-                    {/* File Bar */}
-                    <div className="h-8 border-b-[3px] border-black flex items-center justify-between px-2 text-[10px] font-semibold shrink-0">
-                        PAPER_DRAFT_V2.PDF
+                    {/* PDF */}
+                    <div className="flex flex-col items-center overflow-scroll p-4
+                          flex-1
+                            overflow-auto
+                            bg-[#696969]
+                            [&_.textLayer]:hidden
+                            [&_.react-pdf__Page__textContent]:hidden
+                            [&_.annotationLayer]:hidden
+                            [&_.react-pdf__Page__annotations]:hidden
+                    ">
 
-                        <div className="flex gap-1">
-                            <button className="w-4 h-4 border border-black text-[8px]">
-                                -
-                            </button>
+                        <Document
+                            file={pdfFile}
+                            onLoadSuccess={({ numPages }) =>
+                                setNumPages(numPages)
+                            }
+                        >
+                            {Array.from(
+                                new Array(numPages),
+                                (_, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex justify-center mb-5"
+                                    >
+                                        <Page
+                                            pageNumber={index + 1}
+                                            width={pageWidth}
+                                            scale={scale}
+                                            className="max-w-full shadow-2xl"
+                                        />
+                                    </div>
+                                )
+                            )}
+                        </Document>
 
-                            <button className="w-4 h-4 border border-black text-[8px]">
-                                +
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* PDF Area */}
-                    <div className="p-6 lg:flex-1 lg:min-h-0 lg:overflow-y-auto">
-                        <div className="border-[3px] min-h-[850px] max-w-[650px] mx-auto p-8">
-                            <div className="space-y-3">
-                                <div className="h-2 bg-gray-200 w-48"></div>
-                                <div className="h-2 bg-gray-200 w-72"></div>
-
-                                <div className="h-56 border border-dashed border-gray-400 mt-10 flex justify-center items-center text-gray-400">
-                                    IMAGE
-                                </div>
-
-                                <div className="space-y-3 mt-10">
-                                    <div className="h-2 bg-gray-200"></div>
-                                    <div className="h-2 bg-gray-200"></div>
-                                    <div className="h-2 bg-gray-200"></div>
-                                    <div className="h-2 bg-gray-200"></div>
-                                    <div className="h-2 bg-gray-200"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -178,7 +232,7 @@ const ResponsePage: React.FC = () => {
                 </div>
 
                 {/* RIGHT PANEL */}
-                <div className="flex-1 flex flex-col lg:min-h-0 lg:overflow-hidden">
+                <div className="flex-1 flex flex-col min-h-0 lg:overflow-hidden">
                     {/* Top Bar */}
                     <div
                         className={`
@@ -208,11 +262,11 @@ const ResponsePage: React.FC = () => {
                             : "Executive Summary"}
                     </div>
 
-                    {/* SUMMARY */}
-                    {tab === "summary" && <SummerySection />}
-
-                    {/* CHAT */}
-                    {tab === "chat" && <ChatSection />}
+                    {/* CONTENT AREA */}
+                    <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto">
+                        {tab === "summary" && <SummerySection />}
+                        {tab === "chat" && <ChatSection />}
+                    </div>
                 </div>
             </div>
         </div>
