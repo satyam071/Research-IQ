@@ -3,57 +3,41 @@ import ThemeContext, { ThemeContextData } from "../Context/ThemeContext";
 
 
 const response = {
-    "title": "Pseudo Ship-radiated Noise Generation Based on Adversarial Learning",
+    "title": "An Area-Efﬁcient FPGA Implementation of a Real-Time Multi-Class Classiﬁer for Binary Images",
     "authors": [
-        "Yanmiao Li",
-        "Feng-Xiang Ge",
-        "Yanyu Bai",
-        "Mengjia Li",
-
+        "Narges Attarmoghaddam",
+        "Kin Fun Li"
     ],
     "keywords": [
-        "Ship-radiated Noise",
-        "Generative Adversarial Networks (GAN)",
-        "Convolutional Neural Networks (CNN)"
+        "HOG",
+        "SVM",
+        "FPGA",
+        "hardware implementation",
+        "image classiﬁcation",
+        "binary image"
     ],
-    "objective": "To generate pseudo ship-radiated noises using adversarial learning and evaluate their quality using a 1D convolutional network for classification.",
+    "objective": "Developing an area-efﬁcient FPGA implementation of a real-time multi-class classiﬁer for binary images using HOG feature extractor and SVM classiﬁer",
     "section_summaries": {
-        "abstract": "The paper proposes a method for generating pseudo ship-radiated noises using adversarial learning and evaluates their quality using a 1D convolutional network for classification. The proposed solution is effective in generating pseudo ship-radiated noises.",
-        "introduction": "The identification and classification of ship-radiated noises are militarily important for underwater acoustics countermeasure. However, it is difficult to obtain a large amount of ship-radiated noises, making it important to generate qualified ship-radiated noises.",
-        "methodology": "The proposed solution consists of a preprocessing module, a classification module, and a generation module. The preprocessing module formats the collected ship-radiated noises for the deep neural network through normalization and sliding window. The classification module uses a 1D convolutional neural network to evaluate the quality of the generated pseudo ship-radiated noises. The generation module uses a generative model and a discriminative model to generate pseudo ship-radiated noises.",
-        "results": "The experimental results show that the proposed solution is effective in generating pseudo ship-radiated noises. The generated pseudo ship-radiated noises can be better identified using the 1D convolutional network for classification.",
-        "conclusion": "The proposed solution is effective in generating pseudo ship-radiated noises and evaluating their quality using a 1D convolutional network for classification."
+        "abstract": "Developing image classiﬁcation modules in embedded systems is a complex task due to limited resources. A multi-class image classiﬁer using HOG feature extractor and SVM classiﬁer is proposed for binary images, improving processing speed and area efﬁciency.",
+        "introduction": "Image classiﬁcation has many applications, including self-driving vehicles and surveillance systems. However, neural network architectures have high accuracy performance but challenging issues in hardware implementation. Feature-based techniques, such as HOG, are popular but slow due to compute-intensive nature.",
+        "methodology": "The proposed system combines HOG feature extractor and SVM classiﬁer with two steps of binarization to simplify feature extraction and classiﬁcation computations, reducing hardware resource utilization.",
+        "results": "Experimental results show that the proposed system speeds up the classiﬁcation process while utilizing fewer hardware resources, with an 11.4% higher classiﬁcation accuracy using the same setting.",
+        "conclusion": "The proposed area-efﬁcient FPGA implementation of a real-time multi-class classiﬁer for binary images using HOG feature extractor and SVM classiﬁer achieves high accuracy performance and real-time processing speed, overcoming the bottlenecks in hardware implementation."
     },
-    "datasets": [
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-        "Shipsear dataset",
-    ],
-    "models": [
-        "Generative Adversarial Networks (GAN)",
-        "Convolutional Neural Networks (CNN)"
-    ],
+    "datasets": [],
+    "models": [],
     "metrics": [],
     "key_results": [
-        "The proposed solution is effective in generating pseudo ship-radiated noises."
+        "11.4% higher classiﬁcation accuracy using the same setting"
     ],
     "key_contributions": [
-        "A method for generating pseudo ship-radiated noises using adversarial learning is proposed."
+        "Proposed two steps of binarization to simplify feature extraction and classiﬁcation computations",
+        "Combined HOG feature extractor and SVM classiﬁer for high accuracy performance and real-time processing speed"
     ],
     "limitations": [],
     "future_work": []
 }
+
 
 
 interface Props {
@@ -61,7 +45,6 @@ interface Props {
 }
 
 const SummerySection: React.FC<Props> = (props) => {
-    console.log(response.section_summaries.value)
     const { theme } = useContext(ThemeContextData)
     return (
         <div className="p-6 font-semibold lg:flex-1 lg:min-h-0 lg:overflow-y-auto font-league">
@@ -87,7 +70,7 @@ const SummerySection: React.FC<Props> = (props) => {
             {/*{Keywords}*/}
             {response.keywords &&
                 <h2 className=" tracking-[3px] text-xs mb-5 text-center">
-                    KEY FINDINGS
+                    KEYWORDS
                 </h2>}
             {response.keywords && <div className="space-y-5">
 
@@ -121,10 +104,10 @@ const SummerySection: React.FC<Props> = (props) => {
                 ))}
             </div>}
 
-            {response.section_summaries &&
+            {response.section_summaries &&  
                 <div>
                     <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
-                        Summery
+                        Summary
                     </h2>
                     <div className=" space-y-10 text-[11px] leading-5">
                         {Object.entries(response.section_summaries).map(([key, value]) => (
@@ -138,18 +121,38 @@ const SummerySection: React.FC<Props> = (props) => {
                     </div>
                 </div>
             }
+            {response.datasets &&  response.datasets.length > 0 &&
+            <>
             <h3 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">Datasets</h3>
-            {response.datasets &&
                 <div>
                     <ul className="text-xs items-center justify-center mt-2 list-disc flex flex-row flex-wrap gap-3 ">
                         {response.datasets.map((datasets) => (
-                        <li key={datasets}>{datasets}</li>
-                    ))}
+                            <li className="ml-2" key={datasets}>{datasets}</li>
+                        ))}
 
                     </ul>
                 </div>
-                
+            </>
+
             }
+            {response.models &&  response.models.length > 0 &&
+                <>
+                    <h2 className=" tracking-[1px] text-xl mt-5 mb-3 text-center">
+                        MODELS
+                    </h2>
+                    <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
+                        {response.models.map((models) => (
+                            <div key={models}
+                                className="px-2 border-1 border-white">
+                                {models}
+
+                            </div>
+
+                        ))}
+
+                    </div>
+                </>}
+
         </div>
     );
 };

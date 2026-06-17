@@ -1,68 +1,133 @@
-import React from "react";
+import { useState, useEffect, useRef } from "react";
+import { SendHorizontal } from "lucide-react";
 
-interface Props {
-
+interface Message {
+    id: number;
+    role: "user" | "assistant";
+    content: string;
 }
 
-const ChatSection: React.FC<Props> = (props) => {
+const randomReplies = [
+    "Interesting question!",
+    "Can you explain more?",
+    "That's a good point.",
+    "I agree with that.",
+    "Let me think about it.",
+    "Here's another perspective.",
+];
+
+export default function Chat() {
+    const [input, setInput] = useState("");
+    const [messages, setMessages] = useState<Message[]>([
+        {
+            id: 1,
+            role: "assistant",
+            content: "Hello! How can I help you?",
+        },
+    ]);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop =
+                chatContainerRef.current.scrollHeight;
+        }
+    }, [messages]);
+
+    const sendMessage = () => {
+        if (!input.trim()) return;
+
+        const userMessage: Message = {
+            id: Date.now(),
+            role: "user",
+            content: input,
+        };
+
+        const thinkingMessage: Message = {
+            id: Date.now() + 1,
+            role: "assistant",
+            content: "Thinking...",
+        };
+
+        // Add user message and thinking message
+        setMessages((prev) => [...prev, userMessage, thinkingMessage]);
+
+        setInput("");
+
+        // Simulate backend response
+        setTimeout(() => {
+            const reply =
+                randomReplies[Math.floor(Math.random() * randomReplies.length)];
+
+            setMessages((prev) =>
+                prev.map((msg) =>
+                    msg.id === thinkingMessage.id
+                        ? {
+                            ...msg,
+                            content: reply,
+                        }
+                        : msg
+                )
+            );
+        }, 1500);
+    };
+
     return (
-        <>
-            <div className="p-5 space-y-6 lg:flex-1 lg:overflow-y-auto">
+        <div className="flex flex-col h-screen md:h-full bg-zinc-950 rounded-xl overflow-hidden">
 
-                <div className="w-[80%] bg-white border-[3px] border-black shadow-[5px_5px_0px_black] p-4 text-[11px] leading-6">
-                    Hello! I've fully indexed "Neural Architectures
-                    2024". What would you like me to clarify?
-                </div>
-
-                <div className="w-[80%] ml-auto bg-[#F0C84A] border-[3px] border-black shadow-[5px_5px_0px_black] p-4 text-[11px] leading-6">
-                    Can you explain how sparse attention differs
-                    from traditional self-attention?
-                </div>
-
-                <div className="w-[80%] bg-white border-[3px] border-black shadow-[5px_5px_0px_black] p-4 text-[11px] leading-6">
-                    Traditional self-attention has O(n²)
-                    complexity. Sparse attention reduces the
-                    number of token interactions, decreasing
-                    memory usage while maintaining important
-                    contextual relationships.
-                </div>
-
+            {/* Header */}
+            <div className="border-b border-zinc-800 px-5 py-4">
+                <h1 className="font-bold text-lg">Chat</h1>
             </div>
 
-            {/* Input Area */}
-
-            <div className="h-20 border-t-[3px] border-black bg-[#F1ECE2] p-3 flex gap-2">
-
-                <input
-                    placeholder="Ask..."
-                    className="
-                    flex-1
-                    border-[3px]
-                    border-black
-                    bg-white
-                    outline-none
-                    px-3
-                    text-sm
-                  "
-                />
-
-                <button
-                    className="
-                    w-16
-                    bg-[#9B780D]
-                    border-[3px]
-                    border-black
-                    text-white
-                    text-xl
-                    font-bold
-                  "
-                >
-                    ▶
-                </button>
-
+            {/* Scrollable Messages */}
+            <div
+                ref={chatContainerRef}
+                className="flex-1 overflow-y-auto p-4 space-y-4">
+                {messages.map((message) => (
+                    <div
+                        key={message.id}
+                        className={`flex ${message.role === "user"
+                            ? "justify-end"
+                            : "justify-start"
+                            }`}
+                    >
+                        <div
+                            className={`max-w-[75%] px-4 py-3 rounded-2xl break-words ${message.role === "user"
+                                ? "bg-blue-600 rounded-br-md"
+                                : "bg-zinc-800 rounded-bl-md"
+                                }`}
+                        >
+                            {message.content}
+                        </div>
+                    </div>
+                ))}
             </div>
-        </>
+
+            {/* Input area fixed at bottom */}
+            <div className="border-t border-zinc-800 p-4 bg-zinc-950">
+                <div className="flex gap-3">
+                    <input
+                        type="text"
+                        placeholder="Type a message..."
+                        value={input}
+                        className="flex-1 rounded-xl bg-zinc-900 px-4 py-3 outline-none"
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                sendMessage();
+                            }
+                        }}
+                    />
+
+                    <button
+                        onClick={sendMessage}
+                        className="rounded-xl bg-blue-600 px-4 hover:bg-blue-700 transition"
+                    >
+                        <SendHorizontal size={20} />
+                    </button>
+                </div>
+            </div>
+        </div>
     );
-};
-
-export default ChatSection;
+}
