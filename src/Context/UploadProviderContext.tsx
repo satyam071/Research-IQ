@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 
 interface UploadProviderContextType {
-  pdfFile: File | null;
+  pdfFile: File | null ;
   setPdfFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
 

@@ -6,7 +6,8 @@ import SummerySection from "../../Components/SummerySection";
 import ChatSection from "../../Components/ChatSection";
 import { Document, Page, pdfjs } from "react-pdf";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
 
 import { UploadProviderContextData } from "../../Context/UploadProviderContext";
 
@@ -31,7 +32,7 @@ const ResponsePage: React.FC = () => {
     const { pdfFile } = useContext(UploadProviderContextData);
     const [tab, setTab] = useState<"chat" | "summary">("summary");
     const { theme } = useContext(ThemeContextData);
-    console.log(pdfFile)
+    // console.log(pdfFile)
     const [numPages, setNumPages] = useState(0);
     const [scale, setScale] = useState(0.8);
     const [pageWidth, setPageWidth] = useState(300);

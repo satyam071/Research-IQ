@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import UploadSec from "./UploadSec";
 import { UploadContextData } from "../../Context/UploadContext";
 import ResponsePage from "./ResponsePage";
@@ -9,7 +9,11 @@ interface Props {
 }
 
 const ResearchPage: React.FC<Props> = (props) => {
-    const { isUploaded, setIsUploaded } = useContext(UploadContextData);
+
+    useEffect(() => {
+        localStorage.removeItem("paper_id");
+    }, []);
+    const { isUploaded } = useContext(UploadContextData);
 
     return (
         <div>

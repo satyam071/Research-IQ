@@ -4,19 +4,31 @@ import { motion } from "framer-motion";
 import { ThemeContextData } from "../../Context/ThemeContext";
 import { UploadContextData } from "../../Context/UploadContext";
 import { UploadProviderContextData } from "../../Context/UploadProviderContext";
-
+import { sendPdf } from "../../API/Upload.api"
 
 
 const UploadSec = () => {
     const [dragging, setDragging] = useState(false);
     // const [file, setFile] = useState<File | null>(null);
-      const {pdfFile, setPdfFile } = useContext(UploadProviderContextData);
+    const { setPdfFile } = useContext(UploadProviderContextData);
 
     // const [isUploaded, setIsUploaded] = useState(false)
     const { theme } = useContext(ThemeContextData);
-    const { isUploaded, setIsUploaded } = useContext(UploadContextData);
+    const { setIsUploaded } = useContext(UploadContextData);
+
+    // useEffect(() => {
+    //     console.log("Use Effect is working fine!")
+    //     console.log("pdfFile",pdfFile);
+    //     if (pdfFile) {
+    //         sendPdf(pdfFile);
+    //     }
+
+
+    // }, [pdfFile]);
+
 
     const handleFiles = (incomingFiles: FileList | null) => {
+        // console.log(incomingFiles)
         if (!incomingFiles) return;
 
         const selectedFile = incomingFiles[0];
@@ -26,12 +38,22 @@ const UploadSec = () => {
             return;
         }
 
-        setPdfFile(selectedFile);
+        sendPdf(selectedFile).then(() => {
+            setIsUploaded(true)
+            setPdfFile(selectedFile);
+        }).catch((err) => {
+            console.log(err)
+        });
+        // console.log("Use Effect is working fine!")
+        // console.log("pdfFile", pdfFile);
+        // if (pdfFile) {
+        //     sendPdf(pdfFile);
+        // }
     };
 
-    const removeFile = () => {
-        setPdfFile(null);
-    };
+    // const removeFile = () => {
+    //     setPdfFile(null);
+    // };
     // useEffect(() => {
     //     console.log("Updated value:", isUploaded);
     // }, [isUploaded]);
@@ -40,13 +62,12 @@ const UploadSec = () => {
     //     setIsUploaded(true)
     //     console.log(isUploaded)
     // }
-    const Uploaded = (pdfFile) => {
-        setIsUploaded(true);
-        console.log(pdfFile, "is", isUploaded)
+    // const Uploaded = (pdfFile) => {
+    //     console.log(pdfFile, "is", isUploaded)
 
-        // Do whatever you wanted to do
+    //     // Do whatever you wanted to do
 
-    };
+    // };
 
 
     return (
@@ -177,7 +198,7 @@ const UploadSec = () => {
                             </label>
 
                             {/* Uploaded File */}
-                            {pdfFile && (
+                            {/* {pdfFile && (
                                 <motion.div
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -216,7 +237,12 @@ const UploadSec = () => {
                                         <Trash2 size={16} />
                                     </button>
                                     <button
-                                        onClick={() => Uploaded(pdfFile)}
+                                        onClick={(pdfFile) => {
+                                            if (pdfFile) {
+                                                // send pdfFile to backend
+                                                handleFiles(pdfFile);
+                                            }
+                                        }}
                                         className="
                                                         cursor-pointer
                                                         bg-[#F3AB0C]
@@ -243,7 +269,7 @@ const UploadSec = () => {
                                     </button>
                                 </motion.div>
 
-                            )}
+                            )} */}
 
                         </div>
                     </motion.div>
