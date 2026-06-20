@@ -265,8 +265,12 @@ const ResponsePage: React.FC = () => {
 
                     {/* CONTENT AREA */}
                     <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto">
-                        {tab === "summary" && <SummerySection />}
-                        {tab === "chat" && <ChatSection />}
+                        <div className={tab === "summary" ? "" : "hidden"}>
+                            <SummerySection />
+                        </div>
+                        <div className={tab === "chat" ? "" : "hidden"}>
+                            <ChatSection />
+                        </div>
                     </div>
                 </div>
             </div>

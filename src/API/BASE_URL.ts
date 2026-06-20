@@ -1,0 +1,1 @@
+export const BASE_URL = "https://server-facilitate-shoppers-quarterly.trycloudflare.com";

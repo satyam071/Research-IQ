@@ -18,7 +18,8 @@ const randomReplies = [
 ];
 
 export default function ChattingComponent() {
-    const [input, setInput] = useState("");
+    const [question, setQuestion] = useState("");
+    const [ans, setAns] = useState("");
     const [messages, setMessages] = useState<Message[]>([
         {
             id: 1,
@@ -37,11 +38,12 @@ export default function ChattingComponent() {
 
     const sendMessage = () => {
         console.log(messages)
-        if (!input.trim()) return;
+        if (!question.trim()) return;
         // console.log(messages.at(0)?.content)
-        getAnswers(input)
+        getAnswers(question)
             .then((response) => {
-                console.log(response);
+                setAns(response)
+                console.log(ans);
             })
             .catch((err) => {
                 console.log(err.response?.data);
@@ -78,7 +80,7 @@ export default function ChattingComponent() {
         //                     ...msg,
         //                     content: reply,
         //                 }
-        //                 : msg
+        //                 : msgnp
         //         )
         //     );
         // }, 1500);
@@ -122,9 +124,9 @@ export default function ChattingComponent() {
                     <input
                         type="text"
                         placeholder="Type a message..."
-                        value={input}
+                        value={question}
                         className="flex-1 rounded-xl bg-zinc-900 px-4 py-3 outline-none"
-                        onChange={(e) => setInput(e.target.value)}
+                        onChange={(e) => setQuestion(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 sendMessage();

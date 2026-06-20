@@ -1,6 +1,8 @@
 import axios from "axios";
+import { BASE_URL } from "./BASE_URL";
 
-const BASE_URL = "https://creamlike-gracious-salvage.ngrok-free.dev";
+
+// const BASE_URL = "https://server-facilitate-shoppers-quarterly.trycloudflare.com";
 
 export const sendPdf = async (file: File) => {
     const URL = BASE_URL + "/upload-paper";

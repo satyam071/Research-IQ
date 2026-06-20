@@ -5,6 +5,7 @@ import { ThemeContextData } from "../../Context/ThemeContext";
 import { UploadContextData } from "../../Context/UploadContext";
 import { UploadProviderContextData } from "../../Context/UploadProviderContext";
 import { sendPdf } from "../../API/Upload.api"
+import LoadingPage from "../../Components/LoadingPage";
 
 
 const UploadSec = () => {
@@ -15,6 +16,7 @@ const UploadSec = () => {
     // const [isUploaded, setIsUploaded] = useState(false)
     const { theme } = useContext(ThemeContextData);
     const { setIsUploaded } = useContext(UploadContextData);
+    const [isUploading, setIsUploading] = useState(false);
 
     // useEffect(() => {
     //     console.log("Use Effect is working fine!")
@@ -37,12 +39,15 @@ const UploadSec = () => {
             alert("Please upload a PDF file.");
             return;
         }
-
+        setIsUploading(true);
         sendPdf(selectedFile).then(() => {
             setIsUploaded(true)
             setPdfFile(selectedFile);
         }).catch((err) => {
             console.log(err)
+            alert("Uploading Failed, please try again!")
+        }).finally(() => {
+            setIsUploading(false)
         });
         // console.log("Use Effect is working fine!")
         // console.log("pdfFile", pdfFile);
@@ -71,84 +76,92 @@ const UploadSec = () => {
 
 
     return (
-        <section className={`min-h-screen flex items-center justify-center px-5 py-16 transition-all delay-300
+        <div className="relative">
+            {isUploading ? (
+                <LoadingPage>
+                    ANALYZING PAPER
+                </LoadingPage>
+                
+            ) : (
+                <section className={`min-h-screen flex items-center justify-center px-5 py-16 transition-all delay-300
             ${theme === "light"
-                ? "bg-[#F2E6CF] text-black "
-                : "bg-[#0B0B12] text-[#F2E6CF] "
-            }
+                        ? "bg-[#F2E6CF] text-black "
+                        : "bg-[#0B0B12] text-[#F2E6CF] "
+                    }
         `}>
 
-            <div className="max-w-5xl w-full">
+                    <div className="max-w-5xl w-full">
 
-                {/* Heading */}
-                <div className="mb-8">
-                    <h1 className={`font-archivo text-3xl md:text-4xl uppercase tracking-[3px] mb-3
+                        {/* Heading */}
+                        <div className="mb-8">
+                            <h1 className={`font-archivo text-3xl md:text-4xl uppercase tracking-[3px] mb-3
                         
                         `}>
-                        INGEST RESEARCH
-                    </h1>
+                                INGEST RESEARCH
+                            </h1>
 
-                    <p className={`text-sm  leading-6 max-w-xl
+                            <p className={`text-sm  leading-6 max-w-xl
                          ${theme === "light"
-                            ? " text-black "
-                            : "text-[#F2E6CF] "
-                        }
+                                    ? " text-black "
+                                    : "text-[#F2E6CF] "
+                                }
                         `}>
-                        Upload your PDF manuscripts for deep neural processing and
-                        semantic analysis. Our AI extracts core insights and citations
-                        instantly.
-                    </p>
-                </div>
+                                Upload your PDF manuscripts for deep neural processing and
+                                semantic analysis. Our AI extracts core insights and citations
+                                instantly.
+                            </p>
+                        </div>
 
-                <div className="flex flex-col lg:flex-row gap-6">
+                        <div className="flex flex-col lg:flex-row gap-6">
 
-                    {/* Upload Area */}
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ duration: 0.25 }}
-                        onDragOver={(e) => {
-                            e.preventDefault();
-                            setDragging(true);
-                        }}
-                        onDragLeave={() => setDragging(false)}
-                        onDrop={(e) => {
-                            e.preventDefault();
-                            setDragging(false);
-                            handleFiles(e.dataTransfer.files);
-                        }}
-                        className={`
-              flex-1 min-h-[280px]
+                            {/* Upload Area */}
+                            <motion.div
+                                whileHover={{ scale: 1.02 }}
+                                transition={{ duration: 0.25 }}
+                                onDragOver={(e) => {
+                                    e.preventDefault();
+                                    setDragging(true);
+                                }}
+                                onDragLeave={() => setDragging(false)}
+                                onDrop={(e) => {
+                                    e.preventDefault();
+                                    setDragging(false);
+                                    if (isUploading) return;
+                                    handleFiles(e.dataTransfer.files);
+                                }}
+                                className={`
+              flex-1 min-h-[280px] h-[280px] 
               border-2 border-dashed
               relative overflow-hidden
               flex flex-col items-center justify-center
               p-5 transition-all duration-300
               ${dragging
-                                ? "border-[#2BB4A0] shadow-[0_0_35px_rgba(43,180,160,.35)]"
-                                : "border-[#666]"
-                            }
+                                        ? "border-[#2BB4A0] shadow-[0_0_35px_rgba(43,180,160,.35)]"
+                                        : "border-[#666]"
+                                    }
             `}
-                    >
-                        {/* Animated Glow */}
-                        <motion.div
-                            animate={{ opacity: [0.1, 0.25, 0.1] }}
-                            transition={{
-                                repeat: Infinity,
-                                duration: 2,
-                            }}
-                            className="absolute inset-0 bg-[#2BB4A0]/10"
-                        />
+                            >
+                                {/* Animated Glow */}
+                                <motion.div
+                                    animate={{ opacity: [0.1, 0.25, 0.1] }}
+                                    transition={{
+                                        repeat: Infinity,
+                                        duration: 2,
+                                    }}
+                                    className="absolute inset-0 bg-[#2BB4A0]/10"
+                                />
 
-                        <div className="relative text-center">
+                                <div className="relative text-center">
 
-                            <motion.div
-                                whileHover={{
-                                    rotate: [-8, 8, -8],
-                                }}
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 1,
-                                }}
-                                className="
+                                    <motion.div
+                                        whileHover={{
+                                            rotate: [-8, 8, -8],
+                                        }}
+                                        transition={{
+                                            repeat: Infinity,
+                                            duration: 1,
+                                        }}
+                                        className="
                   w-12 h-12
                   mx-auto mb-5
                   bg-[#F3AB0C]
@@ -157,20 +170,20 @@ const UploadSec = () => {
                   shadow-[5px_5px_0px_black]
                   flex items-center justify-center
                 "
-                            >
-                                <UploadCloud size={24} className="text-black" />
-                            </motion.div>
+                                    >
+                                        <UploadCloud size={24} className="text-black" />
+                                    </motion.div>
 
-                            <h3 className="font-archivo uppercase text-lg tracking-[2px] mb-3">
-                                Drop Research Paper Here
-                            </h3>
+                                    <h3 className="font-archivo uppercase text-lg tracking-[2px] mb-3">
+                                        Drop Research Paper Here
+                                    </h3>
 
-                            <p className="text-xs text-gray-400 mb-6">
-                                Drag & Drop PDF up to 50MB
-                            </p>
+                                    <p className="text-xs text-gray-400 mb-6">
+                                        Drag & Drop PDF up to 50MB
+                                    </p>
 
-                            <label
-                                className="
+                                    <label
+                                        className="
                 cursor-pointer
                 bg-[#CFA7E8]
                 text-black
@@ -186,19 +199,21 @@ const UploadSec = () => {
                 hover:shadow-[5px_5px_0px_gray]
                 duration-200
               "
-                            >
-                                Browse File
+                                    >
+                                        Browse File
 
-                                <input
-                                    type="file"
-                                    accept=".pdf"
-                                    hidden
-                                    onChange={(e) => handleFiles(e.target.files)}
-                                />
-                            </label>
+                                        <input
+                                            type="file"
+                                            accept=".pdf"
+                                            hidden
+                                            disabled={isUploading}
 
-                            {/* Uploaded File */}
-                            {/* {pdfFile && (
+                                            onChange={(e) => handleFiles(e.target.files)}
+                                        />
+                                    </label>
+
+                                    {/* Uploaded File */}
+                                    {/* {pdfFile && (
                                 <motion.div
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -271,16 +286,16 @@ const UploadSec = () => {
 
                             )} */}
 
-                        </div>
-                    </motion.div>
+                                </div>
+                            </motion.div>
 
-                    {/* Right Cards */}
-                    <div className="w-full lg:w-[220px] flex flex-col gap-4">
+                            {/* Right Cards */}
+                            <div className="w-full lg:w-[220px] flex flex-col gap-4">
 
-                        {/* Guide Card */}
-                        <motion.div
-                            whileHover={{ y: -5 }}
-                            className="
+                                {/* Guide Card */}
+                                <motion.div
+                                    whileHover={{ y: -5 }}
+                                    className="
                 bg-[#9FD3F8]
                 text-black
                 p-4
@@ -288,30 +303,30 @@ const UploadSec = () => {
                 border-black
                 shadow-[7px_7px_0px_#444]
               "
-                        >
-                            <h2 className="font-archivo uppercase text-base mb-4">
-                                Ingestion Guide
-                            </h2>
+                                >
+                                    <h2 className="font-archivo uppercase text-base mb-4">
+                                        Ingestion Guide
+                                    </h2>
 
-                            <div className="space-y-3 text-xs leading-5">
-                                <p>
-                                    <span className="font-bold">01.</span> Ensure PDFs contain selectable text.
-                                </p>
+                                    <div className="space-y-3 text-xs leading-5">
+                                        <p>
+                                            <span className="font-bold">01.</span> Ensure PDFs contain selectable text.
+                                        </p>
 
-                                <p>
-                                    <span className="font-bold">02.</span> Multi-column layouts supported.
-                                </p>
+                                        <p>
+                                            <span className="font-bold">02.</span> Multi-column layouts supported.
+                                        </p>
 
-                                <p>
-                                    <span className="font-bold">03.</span> Files are encrypted and removed.
-                                </p>
-                            </div>
-                        </motion.div>
+                                        <p>
+                                            <span className="font-bold">03.</span> Files are encrypted and removed.
+                                        </p>
+                                    </div>
+                                </motion.div>
 
-                        {/* Model Card */}
-                        <motion.div
-                            whileHover={{ scale: 1.04 }}
-                            className="
+                                {/* Model Card */}
+                                <motion.div
+                                    whileHover={{ scale: 1.04 }}
+                                    className="
                 bg-[#D3A7E9]
                 text-black
                 p-4
@@ -319,36 +334,36 @@ const UploadSec = () => {
                 border-black
                 shadow-[7px_7px_0px_#444]
               "
-                        >
-                            <div className="flex items-center gap-3">
-
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{
-                                        repeat: Infinity,
-                                        duration: 10,
-                                        ease: "linear",
-                                    }}
                                 >
-                                    ✦
+                                    <div className="flex items-center gap-3">
+
+                                        <motion.div
+                                            animate={{ rotate: 360 }}
+                                            transition={{
+                                                repeat: Infinity,
+                                                duration: 10,
+                                                ease: "linear",
+                                            }}
+                                        >
+                                            ✦
+                                        </motion.div>
+
+                                        <div>
+                                            <p className="text-[10px] uppercase tracking-[2px]">
+                                                Active Model
+                                            </p>
+
+                                            <h3 className="font-archivo text-lg">
+                                                MODEL V4.2
+                                            </h3>
+                                        </div>
+                                    </div>
                                 </motion.div>
 
-                                <div>
-                                    <p className="text-[10px] uppercase tracking-[2px]">
-                                        Active Model
-                                    </p>
-
-                                    <h3 className="font-archivo text-lg">
-                                        MODEL V4.2
-                                    </h3>
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* PDF Support Card */}
-                        <motion.div
-                            whileHover={{ y: -5 }}
-                            className="
+                                {/* PDF Support Card */}
+                                <motion.div
+                                    whileHover={{ y: -5 }}
+                                    className="
                 bg-[#9DD1AF]
                 text-black
                 p-4
@@ -356,29 +371,31 @@ const UploadSec = () => {
                 border-black
                 shadow-[7px_7px_0px_#444]
               "
-                        >
-                            <div className="flex items-center gap-3">
+                                >
+                                    <div className="flex items-center gap-3">
 
-                                <FileText size={20} />
+                                        <FileText size={20} />
 
-                                <div>
-                                    <h3 className="font-archivo text-base">
-                                        PDF Support
-                                    </h3>
+                                        <div>
+                                            <h3 className="font-archivo text-base">
+                                                PDF Support
+                                            </h3>
 
-                                    <p className="text-xs mt-1">
-                                        Single PDF upload enabled.
-                                    </p>
-                                </div>
+                                            <p className="text-xs mt-1">
+                                                Single PDF upload enabled.
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </motion.div>
 
                             </div>
-                        </motion.div>
 
+                        </div>
                     </div>
-
-                </div>
-            </div>
-        </section>
+                </section>
+            )}
+        </div>
     );
 };
 

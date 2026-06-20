@@ -1,6 +1,8 @@
 import axios from "axios";
+import { BASE_URL } from "./BASE_URL";
 
-const BASE_URL = "https://creamlike-gracious-salvage.ngrok-free.dev";
+
+// const BASE_URL = "https://server-facilitate-shoppers-quarterly.trycloudflare.com";
 
 export const getSummary = async () => {
     console.log("summery is running")
@@ -18,7 +20,7 @@ export const getSummary = async () => {
 
         console.log("to get summery url: ",URL);
 
-        return response;
+        return response.data;
     } catch (error) {
         console.error(URL);
         throw error;

@@ -15,6 +15,8 @@ const ResearchPage: React.FC<Props> = (props) => {
     }, []);
     const { isUploaded } = useContext(UploadContextData);
 
+    console.log("Research page content is running!")
+
     return (
         <div>
             {isUploaded ?

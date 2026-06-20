@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ThemeContext, { ThemeContextData } from "../Context/ThemeContext";
 import { getSummary } from "../API/GetSummary.api";
+import LoadingPage from "./LoadingPage";
 
 
 
@@ -51,137 +52,133 @@ interface Props {
 
 const SummerySection: React.FC<Props> = (props) => {
     const [response, setResponse] = useState({})
+    const [isGettingSummery, setIsGettingSummery] = useState(false)
 
     useEffect(() => {
-    console.log("SummarySection mounted");
+        console.log("SummarySection mounted");
 
-    const paperId = localStorage.getItem("paper_id");
+        const paperId = localStorage.getItem("paper_id");
 
-    console.log("paperId from localStorage:", paperId);
+        console.log("paperId from localStorage:", paperId);
 
-    if (!paperId) return;
+        if (!paperId) return;
+        setIsGettingSummery(true)
+        getSummary()
+            .then((data) => {
+                console.log("Summary received:", data);
+                setResponse(data);
+            })
+            .catch((err) => {
+                console.log("Summary error:", err);
+            }).finally(() => {
+                setIsGettingSummery(false)
+            });
 
-    getSummary()
-        .then((data) => {
-            console.log("Summary received:", data);
-            setResponse(data);
-        })
-        .catch((err) => {
-            console.log("Summary error:", err);
-        });
-
-}, []);
+    }, []);
     const { theme } = useContext(ThemeContextData)
 
     console.log(response)
     return (
-        <div className="p-6 font-semibold lg:flex-1 lg:min-h-0 lg:overflow-y-auto font-league">
-            {/* {Title} */}
-            {response.title &&
+        <>
+            {isGettingSummery ? (
+                <LoadingPage >
+                    LOADING SUMMERY
 
-                <h2 className=" tracking-[1px] text-xl mb-2 text-center">
-                    {response.title}
-                </h2>}
-            {/* {Authors} */}
-            {response.authors && <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
-                {response.authors.map((authors) => (
-                    <div key={authors}
-                        className="px-2 border-1 border-white">
-                        {authors}
+                </LoadingPage>
+            ) : (
+                <div className="p-6 font-semibold lg:flex-1 lg:min-h-0 lg:overflow-y-auto font-league">
+                    {/* Title */}
+                    {response.title && (
+                        <h2 className="tracking-[1px] text-xl mb-2 text-center">
+                            {response.title}
+                        </h2>
+                    )}
 
-                    </div>
-
-                ))}
-
-            </div>}
-
-            {/*{Keywords}*/}
-            {response.keywords &&
-                <h2 className=" tracking-[3px] text-xs mb-5 text-center">
-                    KEYWORDS
-                </h2>}
-            {response.keywords && <div className="space-y-5">
-
-                {response.keywords.map((keywords) => (
-                    <div
-                        key={keywords}
-                        className={`
-                    
-                                                    border-[3px]
-                                                    
-                                                    
-                                                    p-4
-                                                    text-[11px]
-
-                                                    ${theme === "light" ?
-                                "border-black" :
-                                "border-[#4d4d4d]"
-
-
-
-                            }
-                                                    `}
-
-                    >
-                        {/* <span className="mr-3">
-                            {String(keywords).padStart(2, "0")}.
-                        </span> */}
-
-                        {keywords}
-                    </div>
-                ))}
-            </div>}
-
-            {response.section_summaries &&
-                <div>
-                    <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
-                        Summary
-                    </h2>
-                    <div className=" space-y-10 text-[11px] leading-5">
-                        {Object.entries(response.section_summaries).map(([key, value]) => (
-                            <div key={key}>
-                                <h3 className="font-bold uppercase text-center border-b-1">{key}</h3>
-                                <p className="text-center tracking-normal">{value}</p>
-                            </div>
-                        ))}
-
-
-                    </div>
-                </div>
-            }
-            {response.datasets && response.datasets.length > 0 &&
-                <>
-                    <h3 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">Datasets</h3>
-                    <div>
-                        <ul className="text-xs items-center justify-center mt-2 list-disc flex flex-row flex-wrap gap-3 ">
-                            {response.datasets.map((datasets) => (
-                                <li className="ml-2" key={datasets}>{datasets}</li>
+                    {/* Authors */}
+                    {response.authors && (
+                        <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
+                            {response.authors.map((authors) => (
+                                <div key={authors} className="px-2 border-1 border-white">
+                                    {authors}
+                                </div>
                             ))}
+                        </div>
+                    )}
 
-                        </ul>
-                    </div>
-                </>
+                    {/* Keywords */}
+                    {response.keywords && (
+                        <h2 className="tracking-[3px] text-xs mb-5 text-center">
+                            KEYWORDS
+                        </h2>
+                    )}
+                    {response.keywords && (
+                        <div className="space-y-5">
+                            {response.keywords.map((keywords) => (
+                                <div
+                                    key={keywords}
+                                    className={`border-[3px] p-4 text-[11px] ${theme === "light" ? "border-black" : "border-[#4d4d4d]"
+                                        }`}
+                                >
+                                    {keywords}
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
-            }
-            {response.models && response.models.length > 0 &&
-                <>
-                    <h2 className=" tracking-[1px] text-xl mt-5 mb-3 text-center">
-                        MODELS
-                    </h2>
-                    <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
-                        {response.models.map((models) => (
-                            <div key={models}
-                                className="px-2 border-1 border-white">
-                                {models}
-
+                    {response.section_summaries && (
+                        <div>
+                            <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                                Summary
+                            </h2>
+                            <div className="space-y-10 text-[11px] leading-5">
+                                {Object.entries(response.section_summaries).map(
+                                    ([key, value]) => (
+                                        <div key={key}>
+                                            <h3 className="font-bold uppercase text-center border-b-1">
+                                                {key}
+                                            </h3>
+                                            <p className="text-center tracking-normal">{value}</p>
+                                        </div>
+                                    )
+                                )}
                             </div>
+                        </div>
+                    )}
 
-                        ))}
+                    {response.datasets && response.datasets.length > 0 && (
+                        <>
+                            <h3 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                                Datasets
+                            </h3>
+                            <div>
+                                <ul className="text-xs items-center justify-center mt-2 list-disc flex flex-row flex-wrap gap-3">
+                                    {response.datasets.map((datasets) => (
+                                        <li className="ml-2" key={datasets}>
+                                            {datasets}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </>
+                    )}
 
-                    </div>
-                </>}
-
-        </div>
+                    {response.models && response.models.length > 0 && (
+                        <>
+                            <h2 className="tracking-[1px] text-xl mt-5 mb-3 text-center">
+                                MODELS
+                            </h2>
+                            <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
+                                {response.models.map((models) => (
+                                    <div key={models} className="px-2 border-1 border-white">
+                                        {models}
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
+        </>
     );
 };
 
