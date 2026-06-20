@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { SendHorizontal } from "lucide-react";
+import { getAnswers } from "../API/Chat.api";
 
 interface Message {
     id: number;
@@ -37,40 +38,50 @@ export default function ChattingComponent() {
     const sendMessage = () => {
         console.log(messages)
         if (!input.trim()) return;
+        // console.log(messages.at(0)?.content)
+        getAnswers(input)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.log(err.response?.data);
+            });
 
-        const userMessage: Message = {
-            id: Date.now(),
-            role: "user",
-            content: input,
-        };
 
-        const thinkingMessage: Message = {
-            id: Date.now() + 1,
-            role: "assistant",
-            content: "Thinking...",
-        };
 
-        // Add user message and thinking message
-        setMessages((prev) => [...prev, userMessage, thinkingMessage]);
+        // const userMessage: Message = {
+        //     id: Date.now(),
+        //     role: "user",
+        //     content: input,
+        // };
 
-        setInput("");
+        // const thinkingMessage: Message = {
+        //     id: Date.now() + 1,
+        //     role: "assistant",
+        //     content: "Thinking...",
+        // };
 
-        // Simulate backend response
-        setTimeout(() => {
-            const reply =
-                randomReplies[Math.floor(Math.random() * randomReplies.length)];
+        // // Add user message and thinking message
+        // setMessages((prev) => [...prev, userMessage, thinkingMessage]);
 
-            setMessages((prev) =>
-                prev.map((msg) =>
-                    msg.id === thinkingMessage.id
-                        ? {
-                            ...msg,
-                            content: reply,
-                        }
-                        : msg
-                )
-            );
-        }, 1500);
+        // setInput("");
+
+        // // Simulate backend response
+        // setTimeout(() => {
+        //     const reply =
+        //         randomReplies[Math.floor(Math.random() * randomReplies.length)];
+
+        //     setMessages((prev) =>
+        //         prev.map((msg) =>
+        //             msg.id === thinkingMessage.id
+        //                 ? {
+        //                     ...msg,
+        //                     content: reply,
+        //                 }
+        //                 : msg
+        //         )
+        //     );
+        // }, 1500);
     };
 
     return (

@@ -10,7 +10,7 @@ export const getSummary = async () => {
         throw new Error("paper_id not found");
     }
     
-    const URL = `${BASE_URL}/paper/${paperId}/summary`;
+    const URL = `${BASE_URL}/paper/${paperId}/summary/`;
     console.log(paperId)
 
     try {
