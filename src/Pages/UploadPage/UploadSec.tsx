@@ -81,13 +81,10 @@ const UploadSec = () => {
                 <LoadingPage>
                     ANALYZING PAPER
                 </LoadingPage>
-                
+
             ) : (
-                <section className={`min-h-screen flex items-center justify-center px-5 py-16 transition-all delay-300
-            ${theme === "light"
-                        ? "bg-[#F2E6CF] text-black "
-                        : "bg-[#0B0B12] text-[#F2E6CF] "
-                    }
+                <section className={`min-h-auto flex items-center justify-center px-5 py-15 transition-all delay-300
+           
         `}>
 
                     <div className="max-w-5xl w-full">
@@ -107,7 +104,7 @@ const UploadSec = () => {
                                 }
                         `}>
                                 Upload your PDF manuscripts for deep neural processing and
-                                semantic analysis. Our AI extracts core insights and citations
+                                semantic analysis. Our AI extracts core insights and summary
                                 instantly.
                             </p>
                         </div>
@@ -354,7 +351,7 @@ const UploadSec = () => {
                                             </p>
 
                                             <h3 className="font-archivo text-lg">
-                                                MODEL V4.2
+                                                MODEL V1.0
                                             </h3>
                                         </div>
                                     </div>

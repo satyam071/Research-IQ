@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "../../Components/Button/Button.tsx";
 import logo from "../../Images/rainbow.png";
-import  {useNavigate}  from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ThemeContextData } from "../../Context/ThemeContext.tsx";
 
 
 
 const HeroSection: React.FC = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContextData)
   return (
-    <section className="min-h-screen bg-[#0B0B12] text-white px-4 sm:px-6 md:px-8 py-10 md:py-12 overflow-hidden">
+    <section className="min-h-screen  px-4 sm:px-6 md:px-8 py-10 md:py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto">
 
         {/* Main Content */}
@@ -24,7 +26,7 @@ const HeroSection: React.FC = () => {
 
             {/* Heading */}
             <div className="mt-6 font-mono uppercase leading-none">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold ">
                 UNDERSTAND ANY
               </h1>
 
@@ -34,13 +36,13 @@ const HeroSection: React.FC = () => {
                 </h1>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 text-white">
-                IN MINUTES
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 ">
+                IN SECONDS
               </h1>
             </div>
 
             {/* Description */}
-            <div className="mt-8 max-w-lg text-[#F2E6CF] font-mono text-sm sm:text-base leading-7 sm:leading-8">
+            <div className="mt-8 max-w-lg  font-mono text-sm sm:text-base leading-7 sm:leading-8">
               <p className="text-xs sm:text-sm">
                 Stop drowning in academic jargon. PaperMind AI deconstructs
                 complex PDFs into actionable insights, clear summaries, and
@@ -57,16 +59,32 @@ const HeroSection: React.FC = () => {
 
               <button
                 onClick={
-                  ()=>navigate('/upload')
+                  () => navigate('/upload')
                 }
-                
-                className="bg-[#E9440A] text-black border-2 border-[#484848] px-8 py-3 font-mono font-bold shadow-[6px_6px_0px_#000] hover:translate-x-1 hover:translate-y-0.5 hover:shadow-none transition rounded-none cursor-pointer "
+
+                className={`bg-[#E9440A] text-black border-2 border-[#484848] px-8 py-3 font-mono font-bold    hover:shadow-[6px_6px_0px_#000] transition rounded-none cursor-pointer
+                  ${theme == 'light' ?
+                    " hover:shadow-[6px_6px_0px_#000] "
+                    : "hover:shadow-[6px_6px_0px_#fff] "
+
+                  } 
+                  
+                  
+                  
+                  `}
               >
                 START NEW RESEARCH
               </button>
 
               <Button
-                className="border-2 border-white text-white bg-transparent px-8 py-3 font-mono font-bold shadow-[6px_6px_0px_#000] hover:bg-transparent hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition rounded-none"
+                className={`border-2  bg-transparent px-8 py-3 font-mono font-bold   transition rounded-none
+                  ${theme == 'light' ?
+                    "border-black hover:shadow-[6px_6px_0px_#000] "
+                    : "border-white text-white hover:shadow-[6px_6px_0px_#fff] "
+
+                  }
+                  
+                  `}
               >
                 WATCH DEMO
               </Button>
@@ -111,16 +129,26 @@ const HeroSection: React.FC = () => {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
 
-          <div className="bg-[#F2E6CF] text-black border-4 border-black p-5 shadow-[6px_6px_0px_#fff]">
+          <div className={`bg-[#F2E6CF] text-black border-4 border-black p-5 shadow-
+            ${theme == 'light' ?
+              "shadow-[6px_6px_0px_#000]"
+              : "shadow-[6px_6px_0px_#fff]"
+
+            }
+            
+            `}>
             <h2 className="text-3xl md:text-4xl font-bold font-mono">
-              12M+
+              50+
             </h2>
             <p className="font-mono text-sm">
-              PAPERS INDEXED
+              RESEARCH PAPERS TESTED
             </p>
           </div>
 
-          <div className="bg-[#F3AB0C] text-black border-4 border-black p-5 shadow-[6px_6px_0px_#fff]">
+          <div className={`bg-[#F3AB0C] text-black border-4 border-black p-5 
+          ${theme == 'light' ?
+              "shadow-[6px_6px_0px_#000]"
+              : "shadow-[6px_6px_0px_#fff]"}`}>
             <h2 className="text-3xl md:text-4xl font-bold font-mono">
               98%
             </h2>
@@ -129,7 +157,15 @@ const HeroSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-[#9DD1AF] text-black border-4 border-black p-5 shadow-[6px_6px_0px_#fff]">
+          <div className={`bg-[#9DD1AF] text-black border-4 border-black p-5 
+          ${theme == 'light' ?
+              "shadow-[6px_6px_0px_#000]"
+              : "shadow-[6px_6px_0px_#fff]"}
+          
+            
+            
+            
+            `}>
             <h2 className="text-3xl md:text-4xl font-bold font-mono">
               &lt;2m
             </h2>
@@ -138,12 +174,20 @@ const HeroSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-[#2BB4A0] text-black border-4 border-black p-5 shadow-[6px_6px_0px_#fff]">
+          <div className={`bg-[#2BB4A0] text-black border-4 border-black p-5 
+          ${theme == 'light' ?
+              "shadow-[6px_6px_0px_#000]"
+              : "shadow-[6px_6px_0px_#fff]"}
+          
+            
+            
+            
+            `}>
             <h2 className="text-3xl md:text-4xl font-bold font-mono">
-              50k+
+              90%
             </h2>
             <p className="font-mono text-sm">
-              ACTIVE RESEARCHERS
+              FASTER READING
             </p>
           </div>
 

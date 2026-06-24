@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContextData } from "../Context/ThemeContext";
 
 interface Props {
     logo?: React.ReactNode
@@ -12,9 +13,12 @@ interface Props {
 
 }
 
+
 const InfoBox: React.FC<Props> = ({ logo, description, title, button_title, button_line_color="after:bg-black",onClick, className }) => {
+
+    const {theme}=useContext(ThemeContextData)
     return (
-        <button onClick={onClick} className={`m-3 col-span-12 lg:col-span-4 group  border-4 border-black p-6 shadow-[7px_7px_0px_#000] transition-all duration-300 cursor-pointer ${className} `}>
+        <button onClick={onClick} className={`m-3 col-span-12 lg:col-span-4 group  border-4 border-black p-6  transition-all duration-300 cursor-pointer ${className}  ${theme=='light'?"shadow-[7px_7px_0px_#000]":"shadow-[7px_7px_0px_#fff]"}`}>
 
 
             <h2 className=" font-mono text-lg  tracking-wide font-bold uppercase  text-center items-center">

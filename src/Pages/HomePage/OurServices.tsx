@@ -1,30 +1,52 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContextData } from "../../Context/ThemeContext";
 
 const OurServices = () => {
+  const {theme}=useContext(ThemeContextData)
   return (
-    <section className="relative bg-[#0B0B12] py-16 px-4 overflow-hidden">
+    <section className="relative  py-16 px-4 overflow-hidden">
 
       {/* Top Glow */}
-      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-black/50 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-20 " />
 
       <div className="max-w-6xl mx-auto relative">
 
         {/* Heading */}
         <div className="mb-12">
-          <h1 className="font-mono font-bold text-2xl md:text-4xl text-[#F2E6CF] uppercase tracking-wide">
+          <h1 className="font-mono font-bold text-2xl md:text-4xl  uppercase tracking-wide">
             THE PRECISION TOOLKIT
           </h1>
 
-          <p className="mt-3 text-[#F2E6CF]/70 font-mono text-xs md:text-sm max-w-xl leading-6">
+          <p className="mt-3  font-mono text-xs md:text-sm max-w-xl leading-6">
             Advanced computational tools designed for systematic
             literature review and deep conceptual understanding.
           </p>
 
-          <div className="mt-5 h-[3px] bg-[#F2E6CF] w-32 md:w-44" />
+          <div className={`mt-5 h-[3px]  w-32 md:w-44
+          ${theme=='light'?
+          "bg-black"
+          :"bg-[#F2E6CF]"
+        
+        
+        }
+            
+            `} />
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-12 gap-3">
+          <div className="col-span-12 lg:col-span-4 group bg-[#9DD1AF] border-4 border-black p-6 shadow-[7px_7px_0px_#000] transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_#fff]">
+
+
+            <h2 className="mt-6 font-mono text-lg font-bold uppercase text-black">
+              INSTANT SUMMARY
+            </h2>
+
+            <p className="mt-4 text-black/80 leading-6 font-mono text-sm">
+              Generate concise summaries of complex research papers, highlighting key ideas, objectives, methods, and findings for quick understanding.
+            </p>
+
+          </div>
 
           {/* Main Card */}
           <div className="col-span-12 lg:col-span-8 group bg-[#F2E6CF] border-4 border-black p-6 shadow-[7px_7px_0px_#000] transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_#fff]">
@@ -63,27 +85,7 @@ const OurServices = () => {
           </div>
 
           {/* Right Card */}
-          <div className="col-span-12 lg:col-span-4 group bg-[#9DD1AF] border-4 border-black p-6 shadow-[7px_7px_0px_#000] transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_#fff]">
 
-            <div className="w-8 h-8 bg-white border-2 border-black flex items-center justify-center text-sm">
-              📄
-            </div>
-
-            <h2 className="mt-6 font-mono text-lg font-bold uppercase text-black">
-              BULK BATCH ANALYSIS
-            </h2>
-
-            <p className="mt-4 text-black/80 leading-6 font-mono text-xs">
-              Upload up to 100 PDFs at once.
-              PaperMind will categorize, tag and
-              cross-reference them in parallel.
-            </p>
-
-            <button className="mt-8 relative font-mono text-sm font-bold text-black after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-black after:transition-all group-hover:after:w-full">
-              LEARN MORE
-            </button>
-
-          </div>
 
           {/* Bottom Left */}
           <div className="col-span-12 md:col-span-4 group bg-[#2BB4A0] border-4 border-black p-6 shadow-[7px_7px_0px_#000] transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_#fff]">

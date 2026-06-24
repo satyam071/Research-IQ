@@ -83,16 +83,16 @@ export default function Testimonials() {
     };
 
     return (
-        <section className="min-h-full bg-[#0B0B12] flex flex-col justify-center items-center py-7 overflow-hidden">
+        <section className="min-h-full  flex flex-col justify-center items-center py-7 overflow-hidden">
 
             {/* Heading */}
             <div className="text-center mb-1 md:mb-3">
-                <h1 className="uppercase font-black tracking-[3px] text-[#E9E1D1]
+                <h1 className="uppercase font-black tracking-[3px] 
           text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
                     Voices Of The Vanguard
                 </h1>
 
-                <p className="mt-3 text-[#777777] text-xs sm:text-sm">
+                <p className="mt-3  text-xs sm:text-sm">
                     Used by thousands of researchers across the globe.
                 </p>
             </div>

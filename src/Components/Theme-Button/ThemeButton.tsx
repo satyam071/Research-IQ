@@ -20,13 +20,13 @@ const ThemeButton: React.FC = () => {
             onClick={() =>
                 setTheme(theme === "dark" ? "light" : "dark")
             }
-            className={` cursor-pointer relative w-[72px] h-[30px] rounded-full border-[1.8px] border-[#C89A3C] bg-gradient-to-r from-black to-[#1D2027] flex items-center justify-between px-2 shadow-[0_0_25px_rgba(212,175,55,.25)] `}>
+            className={` cursor-pointer relative w-[72px] h-[30px] rounded-full border-[1.8px] border-[#C89A3C]  flex items-center justify-between px-2 shadow-[0_0_25px_rgba(212,175,55,.25)] ${theme=='light'?"bg-[#E9D6B4]":"bg-black"} `}>
 
             <FontAwesomeIcon
                 icon={faMoon}
                 className={`text-[12px] ${theme === "light"
                     ? "text-gray-500 transition delay-300 ease-in-out"
-                    : "text-[#D4AF37] transition delay-300 ease-in-out"
+                    : " text-[#D4AF37] transition delay-300 ease-in-out"
                     }`}
             />
 

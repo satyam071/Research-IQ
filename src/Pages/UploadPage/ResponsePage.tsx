@@ -10,6 +10,7 @@ import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 
 import { UploadProviderContextData } from "../../Context/UploadProviderContext";
+import { ModeContextData } from "../../Context/ModeContext";
 
 
 
@@ -29,6 +30,7 @@ interface Props {
 // }
 
 const ResponsePage: React.FC = () => {
+    const { mode } = useContext(ModeContextData)
     const { pdfFile } = useContext(UploadProviderContextData);
     const [tab, setTab] = useState<"chat" | "summary">("summary");
     const { theme } = useContext(ThemeContextData);
@@ -57,9 +59,9 @@ const ResponsePage: React.FC = () => {
 
 
     return (
-        <div className={`min-h-full lg:h-full flex-1 overflow-auto  m-4 rounded-t-[12px] md:rounded-t-[12px]
+        <div className={`min-h-full lg:h-full flex-1 overflow-auto  m-2 rounded-t-[12px] 
              ${theme === "light"
-                ? "bg-white  rounded-md shadow-[0px_0px_3px_#000]"
+                ? "bg-[#faecd3]  rounded-md shadow-[0px_0px_3px_#000]"
                 : "bg-[#0B0B12]  shadow-[0_0_20px_rgba(255,255,255,0.15)]"
             }
         
@@ -105,8 +107,8 @@ const ResponsePage: React.FC = () => {
 
                         <div className={`p-1 rounded-sm font-bold 
                             ${theme === "light"
-                                ? "bg-[#E8B7E8] shadow-[0px_0px_5px_#AD84AD]"
-                                : "bg-[#E8B7E8] text-black shadow-[0px_0px_5px_#DA6DDA] "
+                                ? "bg-[#E9D6B4] shadow-[0px_0px_5px_#AD84AD]"
+                                : "bg-[#066E76] text-[#E9D6B4]  "
                             }`}>
                             <button
                                 className="border px-3 py-1 text-sm mr-8 rounded-sm"
@@ -133,7 +135,7 @@ const ResponsePage: React.FC = () => {
 
                     {/* PDF */}
                     <div className="flex flex-col items-center overflow-scroll scrollbar-none p-4
-                        mr-1
+                        md:mr-1
                           flex-1
                           border-none
                           rounded-t-[12px] 
@@ -185,12 +187,6 @@ const ResponsePage: React.FC = () => {
                         flex
                         flex-row
                         lg:flex-col
-
-                        
-
-                       
-                        
-
                         sticky
                         top-0
                         z-20
@@ -215,11 +211,11 @@ const ResponsePage: React.FC = () => {
                             cursor-pointer
                             text-[#E9D6B4]
                             
-                            rounded-br-xl md:rounded-br-[12px]
+                            md:rounded-br-[12px]
 
                             ${tab === "chat"
                                 ? "bg-[#066E76]"
-                                : "bg-[#F1ECE2]"
+                                : "bg-[#F1ECE2] text-black"
                             }
                         `}
                     >
@@ -253,13 +249,12 @@ const ResponsePage: React.FC = () => {
                 </div>
 
                 {/* RIGHT PANEL */}
-                <div className="flex-1 flex flex-col min-h-0 overflow-scroll scrollbar-none mt-2 mr-1 rounded-tr-[12px] md:rounded-tr-[12px] ">
+                <div className="flex-1 flex flex-col min-h-0 overflow-scroll scrollbar-none mt-2 md:mr-1  md:rounded-tr-[12px] ">
                     {/* Top Bar */}
                     <div
                         className={`
                             h-10
-                            border-b-[3px]
-                            border-black
+                            
                             flex items-center
                             px-4
                             text-xs
@@ -279,18 +274,18 @@ const ResponsePage: React.FC = () => {
                         `}
                     >
                         {tab === "chat"
-                            ? "Ask The Paper"
+                            ? `Ask The Paper${mode ? `   (${mode} Mode Activated) ` : ""} `
                             : "Executive Summary"}
                     </div>
 
                     {/* CONTENT AREA */}
-                    <div className="flex-1 min-h-0 flex flex-col ">
+                    <div className="flex-1 min-h-0 h-[70vh] flex flex-col ">
                         <div className={tab === "summary" ? "" : "hidden"}>
                             <SummerySection />
                         </div>
                         <div
                             className={`${tab === "chat"
-                                ? "flex-1 min-h-0 flex flex-col overflow-visible scrollbar-none"
+                                ? "flex-1 min-h-[90vh] flex flex-col overflow-visible scrollbar-none lg:h-[40vh]"
                                 : "hidden"
                                 }`}
                         >

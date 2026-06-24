@@ -12,6 +12,7 @@ interface Message {
 export default function ChattingComponent() {
     const [question, setQuestion] = useState("");
     const { mode, setMode } = useContext(ModeContextData)
+    const [Disabled, setDisabled] = useState(false)
 
 
 
@@ -55,7 +56,7 @@ export default function ChattingComponent() {
 
         const currentQuestion = question;
         setQuestion("");
-
+        setDisabled(true)
         try {
             const response = await getAnswers(currentQuestion);
 
@@ -82,6 +83,9 @@ export default function ChattingComponent() {
                         : msg
                 )
             );
+        } finally{
+            setDisabled(false)
+
         }
     };
 
@@ -96,7 +100,7 @@ export default function ChattingComponent() {
         
         `}>
             {/* Header */}
-            <div className={`shrink-0  text-black px-5 py-2 flex justify-between items-center 
+            <div className={`shrink-0  text-black px-5 py-1 flex justify-between items-center
                      ${{
                     paper: "bg-[#9BC9A5] text-black",
                     explain: "bg-[#1A1A1A] text-white",
@@ -150,14 +154,16 @@ export default function ChattingComponent() {
                     hover:bg-[#1E9BA4]
                     hover:text-white
                     
-                    ">Swtich Modes</button>
+                    ">Switch Modes</button>
 
             </div>
 
             {/* Messages */}
             <div
                 ref={chatContainerRef}
-                className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 scrollbar-none"
+                
+                className="flex-1 max-h-[70vh]  h-[70vh]
+        md:h-full overflow-y-auto p-4 space-y-4 scrollbar-none"
             >
                 {messages.map((message) => (
                     <div
@@ -191,6 +197,7 @@ export default function ChattingComponent() {
                 `} >
                 <div className="flex gap-3">
                     <input
+                        {...(Disabled ? { disabled: true } : {})}
                         type="text"
                         placeholder="Type a message..."
                         value={question}
@@ -200,7 +207,7 @@ export default function ChattingComponent() {
                                 sendMessage();
                             }
                         }}
-                        className="flex-1 rounded-xl border-3 px-4 py-3 outline-none"
+                        className={`flex-1 rounded-xl border-3 px-4 py-3 outline-none ${Disabled? "border-gray-600":""}`}
                     />
 
                     <button
