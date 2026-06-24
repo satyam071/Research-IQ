@@ -18,6 +18,7 @@ const ResearchPage: React.FC<Props> = (props) => {
     console.log("Research page content is running!")
 
     return (
+
         <div>
             {isUploaded ?
                 <ResponsePage />

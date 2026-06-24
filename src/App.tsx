@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import HomePage from "./Pages/HomePage/HomePage";
 import NavBar from "./Components/NavBar";
 import Footer from "./Pages/HomePage/Footer";
@@ -10,24 +10,27 @@ interface Props {
 
 }
 
+
+
+
 const App: React.FC<Props> = (props) => {
   const { theme, setTheme } = useContext(ThemeContextData);
+  // const { mode, setMode } = useContext<ModeContextData>(ModeContext)
   return (
     <div className={`${theme === "light"
-      ? "bg-[#F2E6CF] text-black "
-      : "bg-[#0B0B12] text-[#F2E6CF] "
+      ? "bg-[#E8DFC8] text-black "
+      : "bg-[#0F1117] text-[#F2E6CF] "
       }`}>
 
+        <NavBar />
+        <Routes>
+          <Route index element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/upload" element={<ResearchPage />} />
+          <Route path="/*" element={<Error404 />} />
 
-      <NavBar />
-      <Routes>
-        <Route index element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/upload" element={<ResearchPage />} />
-        <Route path="/*" element={<Error404 />} />
-
-      </Routes>
-      <Footer/>
+        </Routes>
+        <Footer />
       {/* <HomePage /> */}
     </div>
   );

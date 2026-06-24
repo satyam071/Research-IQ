@@ -1,4 +1,9 @@
-import React, { createContext, useState, type ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  type ReactNode,
+} from "react";
 
 type Theme = "light" | "dark";
 
@@ -9,8 +14,10 @@ type ThemeContextType = {
 
 export const ThemeContextData = createContext<ThemeContextType>({
   theme: "dark",
-  setTheme: () => {}, // dummy function
+  setTheme: () => {},
 });
+
+export const useTheme = () => useContext(ThemeContextData);
 
 interface Props {
   children: ReactNode;

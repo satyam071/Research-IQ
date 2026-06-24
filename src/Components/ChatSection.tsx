@@ -1,128 +1,66 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ChattingComponent from "./ChattingComponent";
 import Button from "./Button/Button";
+import { ModeContextData } from "../Context/ModeContext";
+import InfoBox from "./InfoBox";
 
 interface Props { }
 
 const ChatSection: React.FC<Props> = () => {
-    const [mode, setMode] = useState<
-        "paper" | "explain" | "hybrid" | null
-    >(null);
+
+    const { mode, setMode } = useContext(ModeContextData)
+
+
+    // const [mode, setMode] = useState<
+    //     "paper" | "explain" | "hybrid" | null
+    // >(null);
 
     return (
 
 
         <>
             {mode != null ? (
+
                 <ChattingComponent />
 
             ) :
-                <div className=" flex flex-col justify-evenly ">
-                    <h1 className="font-archivo  text-2xl text-center mt-5">Select the Mode</h1>
-                    <div className="m-1 flex justify-center items-center">
-                        <button onClick={() => { setMode("paper") }} className="bg-bg-[var(--btn-bg)]
-                    text-[var(--btn-text)]
-                    border-[var(--btn-border)]
+                    <div className=" flex flex-col justify-evenly ">
+                        <h1 className="font-archivo  text-2xl text-center mt-5 tracking-wider uppercase">Select the Mode</h1>
+                        <InfoBox
+                            className="bg-[#2BB4A0] text-black "
+                            title="Paper Mode"
+                            description=
+                                "Analyze the research paper in a structured way,
+                                providing summary, key points, methodology, results,
+                                and important findings."
+                            button_title="Set paper Mode"
+                            onClick={() => { setMode('paper') }}
+                        /> <InfoBox
+                            className="bg-[#F2E6CF] text-black"
+                            title="Hybrid Mode"
+                            description="Combines paper analysis with Al assistance to
+                                    provide deeper insights, explanations, and
+                                    connections between concepts."
+                            button_title="Set Hybrid Mode"
+                            onClick={() => { setMode('hybrid') }}
+                        />
+                         <InfoBox
+                            className="bg-[#161B22] text-white"
+                            
+                            title="Explain Mode"
+                            description="Simplifies complex research content and explains it
+                                in an easy-to-understand manner for better
+                                learning."
+                            button_title="Set Explain Mode"
+                            button_line_color="after:bg-white"
+                            onClick={() => { setMode('explain') }}
+                        />
 
-                    border-[3px]
-                    rounded-xl
-                    px-4 py-2.5
 
-                    font-mono
-                    text-sm
-                    font-bold
-                    tracking-[0.03em]
 
-                    inline-flex
-                    items-center
-                    justify-center
 
-                    shadow-[4px_4px_0_var(--btn-shadow)]
-
-                    transition-all
-                    duration-200
-
-                    hover:-translate-x-[1px]
-                    hover:-translate-y-[1px]
-                    hover:shadow-[6px_6px_0_white]
-
-                    active:translate-x-[2px]
-                    active:translate-y-[2px]
-                    active:shadow-[2px_2px_0_var(--btn-shadow)] uppercase cursor-pointer
-                    m-2
-                    hover:bg-[#F3AB0C]
-                    hover:text-black
-                    
-                    ">Paper</button>
-                        <button onClick={() => { setMode("explain") }} className="bg-bg-[var(--btn-bg)]
-                    text-[var(--btn-text)]
-                    border-[var(--btn-border)]
-
-                    border-[3px]
-                    rounded-xl
-                    px-4 py-2.5
-
-                    font-mono
-                    text-sm
-                    font-bold
-                    tracking-[0.03em]
-
-                    inline-flex
-                    items-center
-                    justify-center
-
-                    shadow-[4px_4px_0_var(--btn-shadow)]
-
-                    transition-all
-                    duration-200
-
-                    hover:-translate-x-[1px]
-                    hover:-translate-y-[1px]
-                    hover:shadow-[6px_6px_0_white]
-
-                    active:translate-x-[2px]
-                    active:translate-y-[2px]
-                    active:shadow-[2px_2px_0_var(--btn-shadow)] uppercase cursor-pointer
-                    m-2
-                    hover:bg-[#2BB4A0]
-                    hover:text-black
-                    ">Explain</button>
-                        <button onClick={() => { setMode("hybrid") }} className="bg-bg-[var(--btn-bg)]
-                    text-[var(--btn-text)]
-                    border-[var(--btn-border)]
-
-                    border-[3px]
-                    rounded-xl
-                    px-4 py-2.5
-
-                    font-mono
-                    text-sm
-                    font-bold
-                    tracking-[0.03em]
-
-                    inline-flex
-                    items-center
-                    justify-center
-
-                    shadow-[4px_4px_0_var(--btn-shadow)]
-
-                    transition-all
-                    duration-200
-
-                    hover:-translate-x-[1px]
-                    hover:-translate-y-[1px]
-                    hover:shadow-[6px_6px_0_white]
-
-                    active:translate-x-[2px]
-                    active:translate-y-[2px]
-                    active:shadow-[2px_2px_0_var(--btn-shadow)] uppercase cursor-pointer
-                    m-2
-                    hover:bg-[#97002E]
-                    hover:text-black">Hybrid</button>
                     </div>
-
-
-                </div>
+                    
 
             }
         </>

@@ -21,6 +21,7 @@ interface ButtonProps {
   children: React.ReactNode;
   mode?: Theme;
   className?: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>; 
 }
 
 export default function Button({

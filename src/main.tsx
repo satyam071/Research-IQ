@@ -5,13 +5,16 @@ import ThemeContextData from './Context/ThemeContext.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import UploadContext from './Context/UploadContext.tsx'
 import { UploadProvider } from './Context/UploadProviderContext.tsx'
+import ModeContext from './Context/ModeContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <ThemeContextData>
       <UploadProvider>
         <UploadContext>
+          <ModeContext>
           <App />
+          </ModeContext>
         </UploadContext>
       </UploadProvider>
     </ThemeContextData>

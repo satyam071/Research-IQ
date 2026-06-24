@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { SendHorizontal } from "lucide-react";
 import { getAnswers } from "../API/Chat.api";
+import { ModeContextData } from "../Context/ModeContext";
 
 interface Message {
     id: number;
@@ -8,18 +9,12 @@ interface Message {
     content: string;
 }
 
-const randomReplies = [
-    "Interesting question!",
-    "Can you explain more?",
-    "That's a good point.",
-    "I agree with that.",
-    "Let me think about it.",
-    "Here's another perspective.",
-];
-
 export default function ChattingComponent() {
     const [question, setQuestion] = useState("");
-    const [ans, setAns] = useState("");
+    const { mode, setMode } = useContext(ModeContextData)
+
+
+
     const [messages, setMessages] = useState<Message[]>([
         {
             id: 1,
@@ -27,6 +22,7 @@ export default function ChattingComponent() {
             content: "Hello! How can I help you?",
         },
     ]);
+
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -36,68 +32,133 @@ export default function ChattingComponent() {
         }
     }, [messages]);
 
-    const sendMessage = () => {
-        console.log(messages)
+    const sendMessage = async () => {
         if (!question.trim()) return;
-        // console.log(messages.at(0)?.content)
-        getAnswers(question)
-            .then((response) => {
-                setAns(response)
-                console.log(ans);
-            })
-            .catch((err) => {
-                console.log(err.response?.data);
-            });
 
+        const userMessage: Message = {
+            id: Date.now(),
+            role: "user",
+            content: question,
+        };
 
+        const thinkingMessage: Message = {
+            id: Date.now() + 1,
+            role: "assistant",
+            content: "Thinking...",
+        };
 
-        // const userMessage: Message = {
-        //     id: Date.now(),
-        //     role: "user",
-        //     content: input,
-        // };
+        setMessages((prev) => [
+            ...prev,
+            userMessage,
+            thinkingMessage,
+        ]);
 
-        // const thinkingMessage: Message = {
-        //     id: Date.now() + 1,
-        //     role: "assistant",
-        //     content: "Thinking...",
-        // };
+        const currentQuestion = question;
+        setQuestion("");
 
-        // // Add user message and thinking message
-        // setMessages((prev) => [...prev, userMessage, thinkingMessage]);
+        try {
+            const response = await getAnswers(currentQuestion);
 
-        // setInput("");
-
-        // // Simulate backend response
-        // setTimeout(() => {
-        //     const reply =
-        //         randomReplies[Math.floor(Math.random() * randomReplies.length)];
-
-        //     setMessages((prev) =>
-        //         prev.map((msg) =>
-        //             msg.id === thinkingMessage.id
-        //                 ? {
-        //                     ...msg,
-        //                     content: reply,
-        //                 }
-        //                 : msgnp
-        //         )
-        //     );
-        // }, 1500);
+            setMessages((prev) =>
+                prev.map((msg) =>
+                    msg.id === thinkingMessage.id
+                        ? {
+                            ...msg,
+                            content:
+                                response?.response?.response ??
+                                "Oops! Looks like an error, please try again.",
+                        }
+                        : msg
+                )
+            );
+        } catch (error) {
+            setMessages((prev) =>
+                prev.map((msg) =>
+                    msg.id === thinkingMessage.id
+                        ? {
+                            ...msg,
+                            content: "Failed to get response.",
+                        }
+                        : msg
+                )
+            );
+        }
     };
 
     return (
-        <div className="flex flex-col h-[80vh] md:h-full bg-zinc-950 rounded-xl overflow-hidden">
-
+        <div className={`flex flex-col flex-1 min-h-0 h-full  overflow-hidden
+            ${{
+                paper: "bg-[#B8DDBE] text-black",
+                explain: "bg-[#000000] text-black",
+                hybrid: "bg-[#E9D6B4] text-black",
+            }[mode] || "bg-gray-400"
+            }
+        
+        `}>
             {/* Header */}
-            <div className="border-b border-zinc-800 px-5 py-4">
-                <h1 className="font-bold text-lg">Chat</h1>
+            <div className={`shrink-0  text-black px-5 py-2 flex justify-between items-center 
+                     ${{
+                    paper: "bg-[#9BC9A5] text-black",
+                    explain: "bg-[#1A1A1A] text-white",
+                    hybrid: "bg-[#D4C19F] text-black ",
+                }[mode] || "bg-gray-400"
+                }
+            
+                  
+                
+                
+                
+                `}>
+                <h1 className={`text-lg font-archivo tracking-wider uppercase ml-2
+
+
+                
+                    
+                    `}>Chat</h1>
+                <button onClick={() => setMode(undefined)} className="bg-bg-[var(--btn-bg)]
+                    text-[var(--btn-text)]
+                    
+
+                    border-[3px]
+                    rounded-xl
+                    px-4 py-2.5
+                    border-[#066E76]
+                    
+
+                    font-mono
+                    text-sm
+                    font-bold
+                    tracking-[0.03em]
+
+                    inline-flex
+                    items-center
+                    justify-center
+
+                    shadow-[4px_4px_0_var(--btn-shadow)]
+
+                    transition-all
+                    duration-200
+
+                    hover:-translate-x-[1px]
+                    hover:-translate-y-[1px]
+                    hover:shadow-[6px_6px_0_white]
+
+                    active:translate-x-[2px]
+                    active:translate-y-[2px]
+                    active:shadow-[2px_2px_0_var(--btn-shadow)] uppercase cursor-pointer
+                    m-2
+                    hover:bg-[#1E9BA4]
+                    hover:text-white
+                    
+                    ">Swtich Modes</button>
+
             </div>
 
-            {/* Scrollable Messages */}
+            {/* Messages */}
             <div
                 ref={chatContainerRef}
-                className="flex-1 overflow-y-auto p-4 space-y-4">
+                className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 scrollbar-none"
+            >
                 {messages.map((message) => (
                     <div
                         key={message.id}
@@ -107,9 +168,9 @@ export default function ChattingComponent() {
                             }`}
                     >
                         <div
-                            className={`max-w-[75%] px-4 py-3 rounded-2xl break-words ${message.role === "user"
-                                ? "bg-blue-600 rounded-br-md"
-                                : "bg-zinc-800 rounded-bl-md"
+                            className={`max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-2xl break-words whitespace-pre-wrap font-mono tracking-wide  text-sm ${message.role === "user"
+                                ? "bg-[#F4F0E6] text-black rounded-br-md"
+                                : "bg-zinc-800 text-white rounded-bl-md"
                                 }`}
                         >
                             {message.content}
@@ -118,25 +179,33 @@ export default function ChattingComponent() {
                 ))}
             </div>
 
-            {/* Input area fixed at bottom */}
-            <div className="border-t border-zinc-800 p-4 bg-zinc-950">
+            {/* Input */}
+            <div className={`shrink-0  p-4 
+                    ${{
+                            paper: "bg-[#9BC9A5] text-black",
+                            explain: "bg-[#1A1A1A] text-white",
+                            hybrid: "bg-[#D4C19F] ",
+                        }[mode] || "bg-gray-400"
+                        }
+                
+                `} >
                 <div className="flex gap-3">
                     <input
                         type="text"
                         placeholder="Type a message..."
                         value={question}
-                        className="flex-1 rounded-xl bg-zinc-900 px-4 py-3 outline-none"
                         onChange={(e) => setQuestion(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 sendMessage();
                             }
                         }}
+                        className="flex-1 rounded-xl border-3 px-4 py-3 outline-none"
                     />
 
                     <button
                         onClick={sendMessage}
-                        className="rounded-xl bg-blue-600 px-4 hover:bg-blue-700 transition"
+                        className="rounded-xl text-white bg-[#000000]  px-4 hover:bg-[#2BB4A0] hover:text-black transition"
                     >
                         <SendHorizontal size={20} />
                     </button>

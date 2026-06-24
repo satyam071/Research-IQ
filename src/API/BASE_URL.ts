@@ -1,1 +1,1 @@
-export const BASE_URL = "https://server-facilitate-shoppers-quarterly.trycloudflare.com";
+export const BASE_URL = "https://fire-approaches-making-elements.trycloudflare.com";

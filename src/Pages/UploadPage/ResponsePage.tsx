@@ -57,13 +57,22 @@ const ResponsePage: React.FC = () => {
 
 
     return (
-        <div className="min-h-full lg:h-full flex-1 overflow-auto p-3">
+        <div className={`min-h-full lg:h-full flex-1 overflow-auto  m-4 rounded-t-[12px] md:rounded-t-[12px]
+             ${theme === "light"
+                ? "bg-white  rounded-md shadow-[0px_0px_3px_#000]"
+                : "bg-[#0B0B12]  shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+            }
+        
+        `}>
             <div
                 className={`
+                    
+                        rounded-md
+                        shadow-[16px_16px_0px_#000]
                     min-h-[calc(100vh-24px)]
                     lg:h-[calc(100vh-24px)]
-                    px-5
-                    pt-9
+                    px-1
+                    pt-0
                     flex-col
                     lg:flex-row
                     lg:overflow-hidden
@@ -72,10 +81,7 @@ const ResponsePage: React.FC = () => {
                     flex 
                     justify-center
 
-                    ${theme === "light"
-                        ? "bg-[#F2E6CF] text-black border-black"
-                        : "bg-[#0B0B12] text-[#F2E6CF] border-[#F1ECE2]"
-                    }
+                   
                 `}
             >
                 {/* PDF SECTION */}
@@ -93,34 +99,46 @@ const ResponsePage: React.FC = () => {
                         overflow-hidden">
 
                     {/* Toolbar */}
-                    <div className="sticky top-0 z-10  border-b p-2 flex items-center justify-center gap-4">
+                    <div className={`sticky top-0 z-10 p-3 flex items-center justify-center gap-4
+                         
+                        `}>
 
-                        <button
-                            className="border px-3 py-1"
-                            onClick={() =>
-                                setScale(prev => Math.max(0.5, prev - 0.1))
-                            }
-                        >
-                            −
-                        </button>
+                        <div className={`p-1 rounded-sm font-bold 
+                            ${theme === "light"
+                                ? "bg-[#E8B7E8] shadow-[0px_0px_5px_#AD84AD]"
+                                : "bg-[#E8B7E8] text-black shadow-[0px_0px_5px_#DA6DDA] "
+                            }`}>
+                            <button
+                                className="border px-3 py-1 text-sm mr-8 rounded-sm"
+                                onClick={() =>
+                                    setScale(prev => Math.max(0.5, prev - 0.1))
+                                }
+                            >
+                                −
+                            </button>
 
-                        <span>{Math.round(scale * 100)}%</span>
+                            <span className="text-sm">{Math.round(scale * 100)}%</span>
 
-                        <button
-                            className="border px-3 py-1"
-                            onClick={() =>
-                                setScale(prev => Math.min(3, prev + 0.1))
-                            }
-                        >
-                            +
-                        </button>
+                            <button
+                                className="border px-3 py-1 text-sm ml-8 rounded-sm"
+                                onClick={() =>
+                                    setScale(prev => Math.min(3, prev + 0.1))
+                                }
+                            >
+                                +
+                            </button>
+                        </div>
 
                     </div>
 
                     {/* PDF */}
-                    <div className="flex flex-col items-center overflow-scroll p-4
+                    <div className="flex flex-col items-center overflow-scroll scrollbar-none p-4
+                        mr-1
                           flex-1
-                            overflow-auto
+                          border-none
+                          rounded-t-[12px] 
+                          md:rounded-t-[12px]
+                            
                             bg-[#696969]
                             [&_.textLayer]:hidden
                             [&_.react-pdf__Page__textContent]:hidden
@@ -168,17 +186,17 @@ const ResponsePage: React.FC = () => {
                         flex-row
                         lg:flex-col
 
-                        border-y-[3px]
-                        lg:border-y-0
-                        lg:border-r-[3px]
+                        
 
-                        border-black
-                        bg-[#F1ECE2]
+                       
+                        
 
                         sticky
                         top-0
                         z-20
                         shrink-0
+                        mt-2
+                        
                     "
                 >
                     <button
@@ -195,10 +213,12 @@ const ResponsePage: React.FC = () => {
                             transition-all
                             duration-300
                             cursor-pointer
-                            text-black
+                            text-[#E9D6B4]
+                            
+                            rounded-br-xl md:rounded-br-[12px]
 
                             ${tab === "chat"
-                                ? "bg-[#D9B4EB]"
+                                ? "bg-[#066E76]"
                                 : "bg-[#F1ECE2]"
                             }
                         `}
@@ -233,7 +253,7 @@ const ResponsePage: React.FC = () => {
                 </div>
 
                 {/* RIGHT PANEL */}
-                <div className="flex-1 flex flex-col min-h-0 lg:overflow-hidden">
+                <div className="flex-1 flex flex-col min-h-0 overflow-scroll scrollbar-none mt-2 mr-1 rounded-tr-[12px] md:rounded-tr-[12px] ">
                     {/* Top Bar */}
                     <div
                         className={`
@@ -249,12 +269,12 @@ const ResponsePage: React.FC = () => {
                             transition-all
                             duration-300
                             ease-in-out
-                            text-black
+                            
                             shrink-0
 
                             ${tab === "chat"
-                                ? "bg-[#D9B4EB]"
-                                : "bg-[#F0C84A]"
+                                ? "bg-[#066E76] text-[#E9D6B4]"
+                                : "bg-[#F0C84A] text-black"
                             }
                         `}
                     >
@@ -264,11 +284,16 @@ const ResponsePage: React.FC = () => {
                     </div>
 
                     {/* CONTENT AREA */}
-                    <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto">
+                    <div className="flex-1 min-h-0 flex flex-col ">
                         <div className={tab === "summary" ? "" : "hidden"}>
                             <SummerySection />
                         </div>
-                        <div className={tab === "chat" ? "" : "hidden"}>
+                        <div
+                            className={`${tab === "chat"
+                                ? "flex-1 min-h-0 flex flex-col overflow-visible scrollbar-none"
+                                : "hidden"
+                                }`}
+                        >
                             <ChatSection />
                         </div>
                     </div>

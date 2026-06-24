@@ -7,6 +7,7 @@ export const getAnswers = async (chats: string) => {
   const url = BASE_URL + "/chat";
 
   const payload = {
+    mode:"explain",
     question: chats,
   };
 
@@ -14,5 +15,6 @@ export const getAnswers = async (chats: string) => {
 
   const answers = await axios.post(url, payload);
 
+  console.log( answers.data);
   return answers.data;
 };

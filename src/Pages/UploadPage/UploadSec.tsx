@@ -130,7 +130,7 @@ const UploadSec = () => {
                                     handleFiles(e.dataTransfer.files);
                                 }}
                                 className={`
-              flex-1 min-h-[280px] h-[280px] 
+              flex-1 min-h-[280px] h-[420px] 
               border-2 border-dashed
               relative overflow-hidden
               flex flex-col items-center justify-center
