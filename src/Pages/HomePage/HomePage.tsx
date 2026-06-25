@@ -1,21 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import Button from "../Components/Button/Button.tsx";
 // import book from "../Images/rainbow.png";
 import HeroSection from "./HeroSection.tsx";
 import OurServices from "./OurServices.tsx";
 import Testimonials from "./Testimonials.tsx";
-import Footer from "./Footer.tsx";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
 
 }
 
 const HomePage: React.FC<Props> = (props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const sectionId = location.state?.scrollTo;
+
+    if (sectionId) {
+      const element = document.getElementById(sectionId);
+
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+
+          // Clear state so refresh/back doesn't scroll again
+          navigate(location.pathname, {
+            replace: true,
+            state: {},
+          });
+        }, 100);
+      }
+    }
+  }, [location, navigate]);
   return (
     <div>
       <HeroSection />
       <OurServices />
-      <Testimonials/>
+      <Testimonials />
     </div>
 
   );

@@ -4,6 +4,7 @@ import dark_logo from "../Images/Dark-Theme-logo.png";
 import light_logo from "../Images/Light-Theme-logo.png";
 import ThemeButton from "./Theme-Button/ThemeButton";
 import { ThemeContextData } from "../Context/ThemeContext";
+import { useNavigate } from "react-router-dom"; "react-router";
 
 type Theme = "light" | "dark";
 
@@ -12,6 +13,22 @@ interface Props {
 }
 
 const NavBar: React.FC<Props> = () => {
+    const navigate=useNavigate();
+
+    const goToSection = (sectionId: string) => {
+        if (location.pathname === "/home") {
+            document.getElementById(sectionId)?.scrollIntoView({
+                behavior: "smooth",
+            });
+        } else {
+            navigate("/home", {
+                state: {
+                    scrollTo: sectionId,
+                },
+            });
+        }
+    };
+
     const { theme, setTheme } = useContext(ThemeContextData);
 
 
@@ -47,14 +64,14 @@ const NavBar: React.FC<Props> = () => {
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center">
-                <p className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
+                <a onClick={()=>{goToSection("Home")}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
                     ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
                     }`
                 }>
-                    Dashboard
-                </p>
+                    HOME
+                </a>
 
                 <p className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
                 ${theme === "light"
@@ -62,26 +79,26 @@ const NavBar: React.FC<Props> = () => {
                         : "text-white hover:text-[#F2E6CF]"
                     }
                 `}>
-                    Watch Demo
+                    How it Works?
                 </p>
 
-                <p className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer  transition-all duration-300
+                <a onClick={() => { goToSection("Testimonials") }} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer  transition-all duration-300
                 ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
                     }
                 `}>
                     View Testimonials
-                </p>
+                </a>
 
-                <p className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm px-6  cursor-pointer transition-all duration-300
+                <a onClick={()=>{goToSection("ourServices")}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm px-6  cursor-pointer transition-all duration-300
                 ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
                     }
                 `}>
                     Features
-                </p>
+                </a>
 
                 <ThemeButton />
             </div>
@@ -96,7 +113,7 @@ const NavBar: React.FC<Props> = () => {
                 >
                     <Menu
                         size={28}
-                        className={`absolute text-white transition-all duration-300
+                        className={`absolute  transition-all duration-300
                         ${open
                                 ? "rotate-90 opacity-0"
                                 : "rotate-0 opacity-100"
@@ -105,7 +122,7 @@ const NavBar: React.FC<Props> = () => {
 
                     <X
                         size={28}
-                        className={`absolute text-white transition-all duration-300
+                        className={`absolute  transition-all duration-300
                         ${open
                                 ? "rotate-0 opacity-100"
                                 : "-rotate-90 opacity-0"
@@ -117,10 +134,16 @@ const NavBar: React.FC<Props> = () => {
             {/* Mobile Dropdown */}
             <div
                 className={`absolute top-[100%] left-0 w-full mt-3 rounded-[20px]
-                bg-black border border-[#1f1f1f]
+                 border border-[#1f1f1f]
                 overflow-hidden
                 transition-all duration-500 ease-in-out
                 lg:hidden z-50
+                ${theme=='light'?
+                "bg-[#faecd3]"
+                :"bg-black"
+            
+            }
+
                 ${open
                         ? "max-h-[320px] opacity-100 translate-y-0"
                         : "max-h-0 opacity-0 -translate-y-4 pointer-events-none"
@@ -128,45 +151,45 @@ const NavBar: React.FC<Props> = () => {
             >
                 <div className="flex flex-col py-3">
 
-                    <p className={`px-6 py-4 text-white uppercase font-montserrat font-semibold tracking-[1px]
-                    hover:bg-[#111]
+                    <a onClick={()=>{goToSection("home")}} className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
+                    
                     transition-all duration-500 delay-75
                     ${open
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-10 opacity-0"
                         }`}>
                         Dashboard
-                    </p>
+                    </a>
 
-                    <p className={`px-6 py-4 text-white uppercase font-montserrat font-semibold tracking-[1px]
-                    hover:bg-[#111]
+                    <a  className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
+                    
                     transition-all duration-500 delay-150
                     ${open
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-10 opacity-0"
                         }`}>
                         Watch Demo
-                    </p>
+                    </a>
 
-                    <p className={`px-6 py-4 text-white uppercase font-montserrat font-semibold tracking-[1px]
-                    hover:bg-[#111]
+                    <a onClick={()=>{goToSection("Testimonials")}} className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
+                    
                     transition-all duration-500 delay-300
                     ${open
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-10 opacity-0"
                         }`}>
                         View Testimonials
-                    </p>
+                    </a>
 
-                    <p className={`px-6 py-4 text-white uppercase font-montserrat font-semibold tracking-[1px]
-                    hover:bg-[#111]
+                    <a onClick={()=>{goToSection("ourServices")}} className={`px-6 py-4 uppercase font-montserrat font-semibold tracking-[1px]
+                    
                     transition-all duration-500 delay-500
                     ${open
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-10 opacity-0"
                         }`}>
                         Features
-                    </p>
+                    </a>
                 </div>
             </div>
         </nav >

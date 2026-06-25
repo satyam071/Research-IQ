@@ -10,7 +10,7 @@ const HeroSection: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContextData)
   return (
-    <section className="min-h-screen  px-4 sm:px-6 md:px-8 py-10 md:py-12 overflow-hidden">
+    <section id="home" className="min-h-screen  px-4 sm:px-6 md:px-8 py-10 md:py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto">
 
         {/* Main Content */}

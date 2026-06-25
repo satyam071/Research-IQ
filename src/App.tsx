@@ -14,7 +14,7 @@ interface Props {
 
 
 const App: React.FC<Props> = (props) => {
-  const { theme, setTheme } = useContext(ThemeContextData);
+  const { theme } = useContext(ThemeContextData);
   // const { mode, setMode } = useContext<ModeContextData>(ModeContext)
   return (
     <div className={`${theme === "light"

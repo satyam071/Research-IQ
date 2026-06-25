@@ -83,7 +83,7 @@ export default function Testimonials() {
     };
 
     return (
-        <section className="min-h-full  flex flex-col justify-center items-center py-7 overflow-hidden">
+        <section id="Testimonials" className="min-h-full  flex flex-col justify-center items-center py-7 overflow-hidden">
 
             {/* Heading */}
             <div className="text-center mb-1 md:mb-3">
