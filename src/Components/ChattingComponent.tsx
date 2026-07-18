@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { SendHorizontal } from "lucide-react";
 import { getAnswers } from "../API/Chat.api";
 import { ModeContextData } from "../Context/ModeContext";
+import ReactMarkdown from "react-markdown"
 
 interface Message {
     id: number;
@@ -58,7 +59,7 @@ export default function ChattingComponent() {
         setQuestion("");
         setDisabled(true)
         try {
-            const response = await getAnswers(currentQuestion);
+            const response = await getAnswers(currentQuestion,mode);
 
             setMessages((prev) =>
                 prev.map((msg) =>
@@ -178,8 +179,9 @@ export default function ChattingComponent() {
                                 ? "bg-[#F4F0E6] text-black rounded-br-md"
                                 : "bg-zinc-800 text-white rounded-bl-md"
                                 }`}
-                        >
+                        ><ReactMarkdown>
                             {message.content}
+                        </ReactMarkdown>
                         </div>
                     </div>
                 ))}

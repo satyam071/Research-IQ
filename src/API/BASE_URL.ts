@@ -1,1 +1,1 @@
-export const BASE_URL = "https://fire-approaches-making-elements.trycloudflare.com";
+export const BASE_URL = "https://settings-wit-ultra-minority.trycloudflare.com";

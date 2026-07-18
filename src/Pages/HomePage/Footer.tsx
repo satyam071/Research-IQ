@@ -21,9 +21,9 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-3">
-            <button className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#2BB4A0] hover:text-black transition-all duration-300">
+            <a href="https://github.com/satyam071/Research-IQ" target="_blank"  className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#2BB4A0] hover:text-black transition-all duration-300">
               <FaGithub size={16} />
-            </button>
+            </a>
 
             <button className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#F3AB0C] hover:text-black transition-all duration-300">
               <FaEnvelope size={16} />

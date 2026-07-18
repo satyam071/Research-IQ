@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Button from "../../Components/Button/Button.tsx";
-import logo from "../../Images/rainbow.png";
+import hero_image from "../../../public/hero_image.png";
 import { useNavigate } from "react-router-dom";
 import { ThemeContextData } from "../../Context/ThemeContext.tsx";
 
@@ -104,7 +104,7 @@ const HeroSection: React.FC = () => {
               {/* Image */}
               <div className="border-4 border-black overflow-hidden w-[260px] sm:w-[340px] md:w-[430px] h-[200px] sm:h-[270px] md:h-[340px]">
                 <img
-                  src={logo}
+                  src={hero_image}
                   alt="Research Paper"
                   className="w-full h-full object-cover"
                 />

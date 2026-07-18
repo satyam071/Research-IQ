@@ -5,28 +5,29 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 const testimonials = [
     {
         quote:
-            "PaperMind AI cut my literature review time in half. It's a game changer for my thesis. ",
-        author: "Sarah Jenkins",
-        role: "PhD Candidate",
+            "The Executive Summary helped me understand research papers in minutes, and Explain Mode made difficult concepts incredibly easy to grasp.",
+        author: "Sneha Singh",
+        role: "M.Sc.Student, Savitribai Phule Pune University",
     },
     {
         quote:
-            "Research-IQ isn't just a tool. It's my academic co-pilot.",
-        author: "Emily Carter",
-        role: "Research Scientist",
+            "Paper Mode gave me precise answers from the research paper, while Explain Mode simplified technical concepts I struggled with. It made studying research papers far less intimidating.",
+        author: "Rishabh Singh",
+        role: "B.Tech EEE Student, IIT Roorkee",
     },
     {
         quote:
-            "The citation extraction feature alone saved me hours every week.",
-        author: "Marcus Brown",
-        role: "Professor",
+            "PaperMind AI became my go-to tool for assignments and research. The summaries alone saved me several hours every week.",
+        author: "PRIYANSHU DAS",
+        role: "B.Tech IT Student, KIIT University",
     },
     {
         quote:
-            "The summaries are shockingly accurate and easy to understand.",
-        author: "James Lee",
-        role: "Student",
+            "The Executive Summary gave me the core ideas before I read the paper. It made finding relevant research much faster.",
+        author: "MEGHNA JOSHI",
+        role: "M.Tech CSE Student, PES University, Bengaluru",
     },
+   
 ];
 
 export default function Testimonials() {
@@ -98,7 +99,7 @@ export default function Testimonials() {
             </div>
 
             {/* Cards */}
-            <div className="relative w-full max-w-[950px] h-[180px] sm:h-[210px] md:h-[240px] lg:h-[260px] flex justify-center items-center">
+            <div className="relative mt-5 w-full max-w-[950px] h-[180px] sm:h-[210px] md:h-[240px] lg:h-[260px] flex justify-center items-center">
 
                 {cards.map((card) => (
                     <motion.div

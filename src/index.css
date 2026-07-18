@@ -7,6 +7,20 @@
   --font-league:"League Spartan",sans-serif;
   --font-montserrat:"Montserrat", sans-serif;
 }
-*{
-    /* color: white; */
+.mermaid svg {
+  width: 100%;
+  height: auto;
 }
+
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon,
+.mermaid .node ellipse {
+  stroke-width: 1px;
+}
+
+.mermaid .label {
+  font-size: 17px;
+  font-family: monospace,sans-serif;
+}
+

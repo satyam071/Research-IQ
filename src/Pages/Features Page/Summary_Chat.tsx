@@ -21,20 +21,13 @@ pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 interface Props {
     pdfFile: File;
 }
-// function PdfViewer() {
-//     return (
-//         <Document file={pdfFile}>
-//             <Page pageNumber={1} />
-//         </Document>
-//     );
-// }
+
 
 const ResponsePage: React.FC = () => {
     const { mode } = useContext(ModeContextData)
     const { pdfFile } = useContext(UploadProviderContextData);
     const [tab, setTab] = useState<"chat" | "summary">("summary");
     const { theme } = useContext(ThemeContextData);
-    // console.log(pdfFile)
     const [numPages, setNumPages] = useState(0);
     const [scale, setScale] = useState(0.8);
     const [pageWidth, setPageWidth] = useState(300);

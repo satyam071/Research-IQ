@@ -28,6 +28,7 @@ export default function Button({
   children,
   mode = "light",
   className = "",
+  onClick
 }: ButtonProps) {
   const t = theme[mode];
 
@@ -74,6 +75,7 @@ export default function Button({
 
         ${className}
       `}
+      onClick={onClick}
     >
       {children}
     </button>

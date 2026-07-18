@@ -82,7 +82,7 @@ const SummerySection: React.FC<Props> = (props) => {
         <>
             {isGettingSummery ? (
                 <LoadingPage >
-                    LOADING SUMMERY
+                    LOADING SUMMARY
 
                 </LoadingPage>
             ) : (

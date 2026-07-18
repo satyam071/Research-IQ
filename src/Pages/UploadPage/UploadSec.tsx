@@ -18,16 +18,6 @@ const UploadSec = () => {
     const { setIsUploaded } = useContext(UploadContextData);
     const [isUploading, setIsUploading] = useState(false);
 
-    // useEffect(() => {
-    //     console.log("Use Effect is working fine!")
-    //     console.log("pdfFile",pdfFile);
-    //     if (pdfFile) {
-    //         sendPdf(pdfFile);
-    //     }
-
-
-    // }, [pdfFile]);
-
 
     const handleFiles = (incomingFiles: FileList | null) => {
         // console.log(incomingFiles)
@@ -49,30 +39,9 @@ const UploadSec = () => {
         }).finally(() => {
             setIsUploading(false)
         });
-        // console.log("Use Effect is working fine!")
-        // console.log("pdfFile", pdfFile);
-        // if (pdfFile) {
-        //     sendPdf(pdfFile);
-        // }
+       
     };
 
-    // const removeFile = () => {
-    //     setPdfFile(null);
-    // };
-    // useEffect(() => {
-    //     console.log("Updated value:", isUploaded);
-    // }, [isUploaded]);
-
-    // const Uploaded=()=>{
-    //     setIsUploaded(true)
-    //     console.log(isUploaded)
-    // }
-    // const Uploaded = (pdfFile) => {
-    //     console.log(pdfFile, "is", isUploaded)
-
-    //     // Do whatever you wanted to do
-
-    // };
 
 
     return (
