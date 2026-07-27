@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ResponsePage from "../Pages/Features Page/Summary_Chat";
 import Button from "../Components/Button/Button";
 import MindMap from "../Pages/Features Page/MindMap";
+import ResearchPage from "../Pages/UploadPage/ResearchPage";
 // import MindMap from "../Pages/UploadPage/MindMap";
 // import CitationExtraction from "../Pages/UploadPage/CitationExtraction";
 // import MultiPaperComparison from "../Pages/UploadPage/MultiPaperComparison";
@@ -13,7 +14,7 @@ const OptionsMiddleware = () => {
   const { selectedOption, setSelectedOption } = useOption();
 
   const pages = {
-    "Summary & Chat AI": <ResponsePage />,
+    "Summary & Chat AI": <ResponsePage/>,
     "Mind Map": <MindMap/>, // Replace later
     "Citation Extraction": <ResponsePage />,
     "Multi-Paper Comparison": <ResponsePage />,
