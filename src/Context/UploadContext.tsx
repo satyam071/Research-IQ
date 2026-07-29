@@ -19,7 +19,7 @@ interface Props {
 
 
 const UploadContext: React.FC<Props> = ({ children }) => {
-    const [isUploaded, setIsUploaded] = useState(true)
+    const [isUploaded, setIsUploaded] = useState(false)
     return (
         <UploadContextData.Provider value={{ isUploaded, setIsUploaded }}>
             {children}

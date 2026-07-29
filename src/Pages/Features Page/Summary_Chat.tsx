@@ -8,9 +8,11 @@ import { Document, Page, pdfjs } from "react-pdf";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
+import { useNavigate } from "react-router-dom";
 
 import { UploadProviderContextData } from "../../Context/UploadProviderContext";
 import { ModeContextData } from "../../Context/ModeContext";
+import { useOption } from "../../Context/OptionsContext";
 
 
 
@@ -24,6 +26,7 @@ interface Props {
 
 
 const ResponsePage: React.FC = () => {
+    const navigate=useNavigate();
     const { mode } = useContext(ModeContextData)
     const { pdfFile } = useContext(UploadProviderContextData);
     const [tab, setTab] = useState<"chat" | "summary">("summary");
@@ -31,6 +34,7 @@ const ResponsePage: React.FC = () => {
     const [numPages, setNumPages] = useState(0);
     const [scale, setScale] = useState(0.8);
     const [pageWidth, setPageWidth] = useState(300);
+    const { selectedOption, setSelectedOption } = useOption();
 
     useEffect(() => {
         const updateWidth = () => {
@@ -98,13 +102,13 @@ const ResponsePage: React.FC = () => {
                          
                         `}>
 
-                        <div className={`p-1 rounded-sm font-bold 
+                        <div className={`p-1 rounded-sm font-bold flex justify-around items-center
                             ${theme === "light"
                                 ? "bg-[#E9D6B4] shadow-[0px_0px_5px_#AD84AD]"
                                 : "bg-[#066E76] text-[#E9D6B4]  "
                             }`}>
                             <button
-                                className="border px-3 py-1 text-sm mr-8 rounded-sm"
+                                className="border px-3 py-1 text-sm mr-5 rounded-sm"
                                 onClick={() =>
                                     setScale(prev => Math.max(0.5, prev - 0.1))
                                 }
@@ -115,12 +119,35 @@ const ResponsePage: React.FC = () => {
                             <span className="text-sm">{Math.round(scale * 100)}%</span>
 
                             <button
-                                className="border px-3 py-1 text-sm ml-8 rounded-sm"
+                                className="border px-3 py-1 text-sm ml-5 rounded-sm"
                                 onClick={() =>
                                     setScale(prev => Math.min(3, prev + 0.1))
                                 }
                             >
                                 +
+                            </button>
+                        </div>
+                        <div >
+
+                            <button
+                                onClick={()=>{setSelectedOption("null")}}
+                                className={` flex text-sm px-5 py-2 rounded-sm font-bold    py-2 font-mono font-bold    hover:shadow-[6px_6px_0px_#000] transition rounded-none cursor-pointer
+                                ${theme == 'light' ?
+                                        " hover:shadow-[6px_6px_0px_#000] "
+                                        : "hover:shadow-[6px_6px_0px_#fff] "
+
+                                    } ,
+                                 ${theme === "light"
+                                        ? "bg-[#E9D6B4] shadow-[0px_0px_5px_#AD84AD]"
+                                        : "bg-[#066E76] text-[#E9D6B4]  "
+                                    }
+                  
+                  
+                  
+                  `}>
+                                Switch Funtions
+
+
                             </button>
                         </div>
 

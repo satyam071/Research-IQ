@@ -62,10 +62,10 @@ const HeroSection: React.FC = () => {
                   () => navigate('/upload')
                 }
 
-                className={`bg-[#E9440A] text-black border-2 border-[#484848] px-8 py-3 font-mono font-bold    hover:shadow-[6px_6px_0px_#000] transition rounded-none cursor-pointer
+                className={`bg-[#fd561a] text-black border-2 px-8 py-3 font-mono font-bold  hover:bg-[#E9440A] transition rounded-none cursor-pointer
                   ${theme == 'light' ?
-                    " hover:shadow-[6px_6px_0px_#000] "
-                    : "hover:shadow-[6px_6px_0px_#fff] "
+                    " "
+                    : ""
 
                   } 
                   

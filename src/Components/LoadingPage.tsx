@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 
 interface Props {
     children?:React.ReactNode
+    classname?:string
 
 }
 
-const LoadingPage: React.FC<Props> = ({children}) => {
+const LoadingPage: React.FC<Props> = ({children,classname}) => {
     return (
         <div className=" gap-6 h-screen flex flex-col items-center justify-center">
 
@@ -29,7 +30,7 @@ const LoadingPage: React.FC<Props> = ({children}) => {
             <motion.h3
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-                className="font-archivo uppercase text-lg tracking-[3px]"
+                className={`font-archivo uppercase text-lg tracking-[3px] ${classname}`}
             >
                 {children}
             </motion.h3>

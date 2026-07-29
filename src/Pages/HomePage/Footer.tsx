@@ -34,32 +34,32 @@ export default function Footer() {
         {/* Product */}
         <div>
           <h3 className="text-xs font-bold uppercase tracking-[2px] mb-4">
-            Product
+            Features
           </h3>
 
           <div className="space-y-2 text-[11px] uppercase text-gray-400">
-            <p className="hover:text-[#F3AB0C] cursor-pointer">Features</p>
-            <p className="hover:text-[#F3AB0C] cursor-pointer">Pricing</p>
-            <p className="hover:text-[#F3AB0C] cursor-pointer">API Docs</p>
-            <p className="hover:text-[#F3AB0C] cursor-pointer">Enterprise</p>
+            <p className="hover:text-[#F3AB0C] cursor-pointer">Text Summarizer</p>
+            <p className="hover:text-[#F3AB0C] cursor-pointer">Interactive Chat</p>
+            <p className="hover:text-[#F3AB0C] cursor-pointer">Visual Mind Maps</p>
+           
           </div>
         </div>
 
         {/* Resources */}
         <div>
           <h3 className="text-xs font-bold uppercase tracking-[2px] mb-4">
-            Resources
+            FOUNDING TEAM
           </h3>
 
           <div className="space-y-2 text-[11px] uppercase text-gray-400">
             <p className="hover:text-[#2BB4A0] cursor-pointer">
-              Knowledge Base
+              Pushkar Pandey
             </p>
             <p className="hover:text-[#2BB4A0] cursor-pointer">
-              Research Blog
+              Yuvaraj Mishra
             </p>
             <p className="hover:text-[#2BB4A0] cursor-pointer">
-              Community
+              Satyam Yadav
             </p>
           </div>
         </div>
@@ -75,10 +75,10 @@ export default function Footer() {
               Privacy Policy
             </p>
             <p className="hover:text-[#97002E] cursor-pointer">
-              Terms of Use
+              Terms of Service
             </p>
             <p className="hover:text-[#97002E] cursor-pointer">
-              Security Ethics
+              Cookie Policy
             </p>
           </div>
         </div>

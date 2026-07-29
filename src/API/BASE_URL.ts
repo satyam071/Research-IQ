@@ -1,1 +1,1 @@
-export const BASE_URL = "https://settings-wit-ultra-minority.trycloudflare.com";
+export const BASE_URL = "https://research-paper-analyzer-backend-42n8.onrender.com";

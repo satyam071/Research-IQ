@@ -1,11 +1,10 @@
 import axios from "axios";
 import { BASE_URL } from "./BASE_URL";
-import { ModeContextData } from "../Context/ModeContext";
-import { useContext } from "react";
 
 
 
-// const BASE_URL = "https://server-facilitate-shoppers-quarterly.trycloudflare.com";
+
+
 
 export const getSummary = async () => {
     

@@ -4,7 +4,10 @@ import dark_logo from "../Images/Dark-Theme-logo.png";
 import light_logo from "../Images/Light-Theme-logo.png";
 import ThemeButton from "./Theme-Button/ThemeButton";
 import { ThemeContextData } from "../Context/ThemeContext";
-import { useNavigate } from "react-router-dom"; "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
+import { UploadProviderContextData } from "../Context/UploadProviderContext";
+import {UploadContextData} from "../Context/UploadContext";
+ "react-router";
 
 type Theme = "light" | "dark";
 
@@ -14,20 +17,49 @@ interface Props {
 
 const NavBar: React.FC<Props> = () => {
     const navigate=useNavigate();
+    const location = useLocation();
+    const { setPdfFile } = useContext(UploadProviderContextData);
+    const {  setIsUploaded } = useContext(UploadContextData);
+    
 
-    const goToSection = (sectionId: string) => {
-        if (location.pathname === "/home") {
-            document.getElementById(sectionId)?.scrollIntoView({
-                behavior: "smooth",
-            });
-        } else {
-            navigate("/home", {
-                state: {
-                    scrollTo: sectionId,
-                },
-            });
-        }
-    };
+    const goToHomeSection = (sectionId: string) => {
+    if (location.pathname === "/home") {
+        document.getElementById(sectionId)?.scrollIntoView({
+            behavior: "smooth",
+        });
+    } else {
+        navigate("/home", {
+            state: { scrollTo: sectionId },
+        });
+    }
+};
+
+    const HomeFunc = () => {
+    setPdfFile(null);
+    setIsUploaded(false);
+
+    if (location.pathname !== "/home") {
+        navigate("/home", {
+            state: { scrollTo: "home" }
+        });
+    } else {
+        document.getElementById("home")?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }
+};
+    const UploadFunc = () => {
+    setPdfFile(null);
+    setIsUploaded(false);
+
+    if (location.pathname !== "/upload") {
+        navigate("/upload");
+    } else {
+        document.getElementById("upload")?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }
+};
 
     const { theme, setTheme } = useContext(ThemeContextData);
 
@@ -64,7 +96,7 @@ const NavBar: React.FC<Props> = () => {
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center">
-                <a onClick={()=>{goToSection("Home")}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
+                <a onClick={()=>{HomeFunc()}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
                     ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
@@ -73,16 +105,16 @@ const NavBar: React.FC<Props> = () => {
                     HOME
                 </a>
 
-                <p className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
+                <a  onClick={()=>{UploadFunc()}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer transition-all duration-300
                 ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
                     }
                 `}>
-                    How it Works?
-                </p>
+                    Upload
+                </a>
 
-                <a onClick={() => { goToSection("Testimonials") }} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer  transition-all duration-300
+                <a onClick={() => { goToHomeSection("Testimonials") }} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm border-r border-[#C89A3C] px-6  cursor-pointer  transition-all duration-300
                 ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
@@ -91,7 +123,7 @@ const NavBar: React.FC<Props> = () => {
                     View Testimonials
                 </a>
 
-                <a onClick={()=>{goToSection("ourServices")}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm px-6  cursor-pointer transition-all duration-300
+                <a onClick={()=>{goToHomeSection("ourServices")}} className={`font-montserrat font-[600] tracking-[1px] uppercase text-sm px-6  cursor-pointer transition-all duration-300
                 ${theme === "light"
                         ? "text-black hover:text-[#707070] "
                         : "text-white hover:text-[#F2E6CF]"
@@ -151,7 +183,8 @@ const NavBar: React.FC<Props> = () => {
             >
                 <div className="flex flex-col py-3">
 
-                    <a onClick={()=>{goToSection("home")}} className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
+                    <a onClick={()=>{HomeFunc()}}
+                        className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px] cursor-pointer
                     
                     transition-all duration-500 delay-75
                     ${open
@@ -161,17 +194,18 @@ const NavBar: React.FC<Props> = () => {
                         Dashboard
                     </a>
 
-                    <a  className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
+                    <a  onClick={()=>{UploadFunc()}}
+                        className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
                     
                     transition-all duration-500 delay-150
                     ${open
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-10 opacity-0"
                         }`}>
-                        Watch Demo
+                        Upload
                     </a>
 
-                    <a onClick={()=>{goToSection("Testimonials")}} className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
+                    <a onClick={()=>{goToHomeSection("Testimonials")}} className={`px-6 py-4  uppercase font-montserrat font-semibold tracking-[1px]
                     
                     transition-all duration-500 delay-300
                     ${open
@@ -181,7 +215,7 @@ const NavBar: React.FC<Props> = () => {
                         View Testimonials
                     </a>
 
-                    <a onClick={()=>{goToSection("ourServices")}} className={`px-6 py-4 uppercase font-montserrat font-semibold tracking-[1px]
+                    <a onClick={()=>{goToHomeSection("ourServices")}} className={`px-6 py-4 uppercase font-montserrat font-semibold tracking-[1px]
                     
                     transition-all duration-500 delay-500
                     ${open

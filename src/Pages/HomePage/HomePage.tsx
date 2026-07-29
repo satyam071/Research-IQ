@@ -37,7 +37,7 @@ const HomePage: React.FC<Props> = (props) => {
     }
   }, [location, navigate]);
   return (
-    <div>
+    <div id="home">
       <HeroSection />
       <OurServices />
       <Testimonials />

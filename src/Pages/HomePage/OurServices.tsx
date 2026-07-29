@@ -91,16 +91,13 @@ const OurServices = () => {
           <div className="col-span-12 md:col-span-4 group bg-[#2BB4A0] border-4 border-black p-6 shadow-[7px_7px_0px_#000] transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_#fff]">
 
             <h2 className="mt-6 font-mono text-lg font-bold uppercase text-black">
-              Citation Extraction
+              ZERO SETUP
             </h2>
 
             <p className="mt-4 font-mono text-xs leading-6 text-black">
-              Automatically extract citations, references, and bibliographic details from research papers. Organize sources into structured, searchable data, reduce manual effort, and streamline your literature review process.
+             Upload one or multiple research papers and get instant results in seconds. No login required. Your files are processed securely, your data stays private, and your documents are never shared. Simple, fast, and built with your privacy in mind.
             </p>
 
-            <button className="mt-8 font-bold text-sm font-mono text-black relative after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-black after:transition-all group-hover:after:w-full">
-              Coming Soon
-            </button>
 
           </div>
 
@@ -115,9 +112,7 @@ const OurServices = () => {
               Automatically transform research papers into interactive mind maps that visualize key concepts, relationships, and insights. Understand complex topics faster and explore connections with ease.
             </p>
 
-            <button className="mt-8 font-bold text-sm font-mono text-black relative after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-black after:transition-all group-hover:after:w-full">
-              Coming Soon
-            </button>
+            
 
           </div>
 
