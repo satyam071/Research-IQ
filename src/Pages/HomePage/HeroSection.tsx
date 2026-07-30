@@ -76,7 +76,7 @@ const HeroSection: React.FC = () => {
                 START NEW RESEARCH
               </button>
 
-              <Button
+              {/* <Button
                 className={`border-2  bg-transparent px-8 py-3 font-mono font-bold   transition rounded-none
                   ${theme == 'light' ?
                     "border-black hover:shadow-[6px_6px_0px_#000] "
@@ -87,7 +87,7 @@ const HeroSection: React.FC = () => {
                   `}
               >
                 WATCH DEMO
-              </Button>
+              </Button> */}
 
             </div>
           </div>
