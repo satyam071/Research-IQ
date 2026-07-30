@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Button from "../../Components/Button/Button.tsx";
 import hero_image from "../../../public/hero_image.png";
 import { useNavigate } from "react-router-dom";
 import { ThemeContextData } from "../../Context/ThemeContext.tsx";
