@@ -21,13 +21,19 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-3">
-            <a href="https://github.com/satyam071/Research-IQ" target="_blank"  className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#2BB4A0] hover:text-black transition-all duration-300">
+            <a href="https://github.com/satyam071/Research-IQ" target="_blank" className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#2BB4A0] hover:text-black transition-all duration-300">
               <FaGithub size={16} />
             </a>
 
-            <button className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#F3AB0C] hover:text-black transition-all duration-300">
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=ysatyam0071@gmail.com&su=Research-IQ%20Feedback"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 border-[3px] border-[#F2E6CF] bg-[#111] flex items-center justify-center shadow-[3px_3px_0px_#F2E6CF] hover:bg-[#F3AB0C] hover:text-black transition-all duration-300"
+              aria-label="Send Feedback"
+            >
               <FaEnvelope size={16} />
-            </button>
+            </a>
           </div>
         </div>
 
@@ -41,7 +47,7 @@ export default function Footer() {
             <p className="hover:text-[#F3AB0C] cursor-pointer">Text Summarizer</p>
             <p className="hover:text-[#F3AB0C] cursor-pointer">Interactive Chat</p>
             <p className="hover:text-[#F3AB0C] cursor-pointer">Visual Mind Maps</p>
-           
+
           </div>
         </div>
 
