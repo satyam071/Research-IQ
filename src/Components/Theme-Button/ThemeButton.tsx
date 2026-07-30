@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, {  useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun, faUsersSlash } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { ThemeContextData } from "../../Context/ThemeContext";
 
 // type Theme = "light" | "dark";

@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { UploadCloud, FileText, Trash2 } from "lucide-react";
+import  { useContext, useState } from "react";
+import { UploadCloud, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import { ThemeContextData } from "../../Context/ThemeContext";
 import { UploadContextData } from "../../Context/UploadContext";

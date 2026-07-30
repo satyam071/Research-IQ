@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import ChattingComponent from "./ChattingComponent";
-import Button from "./Button/Button";
 import { ModeContextData } from "../Context/ModeContext";
 import InfoBox from "./InfoBox";
 
@@ -38,9 +37,9 @@ const ChatSection: React.FC<Props> = () => {
                     /> <InfoBox
                         className="bg-[#F2E6CF] text-black"
                         title="Hybrid Mode"
-                        description="Combines paper analysis with Al assistance to
-                                    provide deeper insights, explanations, and
-                                    connections between concepts."
+                        description={`Combines paper analysis with AI assistance to
+                                        provide deeper insights, explanations, and
+                                        connections between concepts.`}
                         button_title="Set Hybrid Mode"
                         onClick={() => { setMode('hybrid') }}
                     />
@@ -48,9 +47,9 @@ const ChatSection: React.FC<Props> = () => {
                         className="bg-[#161B22] text-white"
 
                         title="Explain Mode"
-                        description="Simplifies complex research content and explains it
-                                in an easy-to-understand manner for better
-                                learning."
+                        description={`Simplifies complex research content and explains it
+                                        in an easy-to-understand manner for better
+                                        learning.`}
                         button_title="Set Explain Mode"
                         button_line_color="after:bg-white"
                         onClick={() => { setMode('explain') }}

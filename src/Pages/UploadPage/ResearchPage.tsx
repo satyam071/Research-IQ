@@ -9,7 +9,7 @@ interface Props {
 
 }
 
-const ResearchPage: React.FC<Props> = (props) => {
+const ResearchPage: React.FC<Props> = () => {
 
     useEffect(() => {
         localStorage.removeItem("paper_id");

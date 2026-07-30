@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import HomePage from "./Pages/HomePage/HomePage";
 import NavBar from "./Components/NavBar";
 import Footer from "./Pages/HomePage/Footer";
@@ -13,7 +13,7 @@ interface Props {
 
 
 
-const App: React.FC<Props> = (props) => {
+const App: React.FC<Props> = () => {
   const { theme } = useContext(ThemeContextData);
   // const { mode, setMode } = useContext<ModeContextData>(ModeContext)
   return (

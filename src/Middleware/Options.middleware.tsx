@@ -1,6 +1,6 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, MessageSquare, Share2 } from "lucide-react";
+import { BookOpen, Share2 } from "lucide-react";
 import { useOption } from "../Context/OptionsContext";
 
 import ResponsePage from "../Pages/Features Page/Summary_Chat";
@@ -169,7 +169,7 @@ const Card = ({
       {/* Chips */}
 
       <div className="relative z-10 flex gap-2 mt-5 flex-wrap justify-center">
-        {chips.map((chip) => (
+        {chips?.map((chip) => (
           <span
             key={chip}
             className="border-2 border-black  px-2 py-1 text-[10px] tracking-widest"

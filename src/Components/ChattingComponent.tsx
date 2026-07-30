@@ -96,7 +96,7 @@ export default function ChattingComponent() {
                 paper: "bg-[#B8DDBE] text-black",
                 explain: "bg-[#000000] text-black",
                 hybrid: "bg-[#E9D6B4] text-black",
-            }[mode] || "bg-gray-400"
+            }[mode!] || "bg-gray-400"
             }
         
         `}>
@@ -106,7 +106,7 @@ export default function ChattingComponent() {
                     paper: "bg-[#9BC9A5] text-black",
                     explain: "bg-[#1A1A1A] text-white",
                     hybrid: "bg-[#D4C19F] text-black ",
-                }[mode] || "bg-gray-400"
+                }[mode!] || "bg-gray-400"
                 }
             
                   
@@ -193,7 +193,7 @@ export default function ChattingComponent() {
                             paper: "bg-[#9BC9A5] text-black",
                             explain: "bg-[#1A1A1A] text-white",
                             hybrid: "bg-[#D4C19F] ",
-                        }[mode] || "bg-gray-400"
+                        }[mode!] || "bg-gray-400"
                         }
                 
                 `} >

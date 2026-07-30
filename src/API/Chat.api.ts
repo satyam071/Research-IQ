@@ -3,8 +3,7 @@ import { BASE_URL } from "./BASE_URL";
 
 export const getAnswers = async (
   chats: string,
-  mode?: string,
-  paper_id:any
+  mode?: string
 ) => {
   const url = BASE_URL + "/chat";
   const id=localStorage.getItem("paper_id");

@@ -7,7 +7,7 @@ import { ThemeContextData } from "../Context/ThemeContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UploadProviderContextData } from "../Context/UploadProviderContext";
 import {UploadContextData} from "../Context/UploadContext";
- "react-router";
+
 
 type Theme = "light" | "dark";
 
@@ -61,13 +61,13 @@ const NavBar: React.FC<Props> = () => {
     }
 };
 
-    const { theme, setTheme } = useContext(ThemeContextData);
+    const { theme } = useContext(ThemeContextData);
 
 
     const [open, setOpen] = useState(false);
 
     return (
-        <nav className={`relative mx-2 md:mx-4 h-[80px] md:h-[105px]
+        <nav className={`relative mx-2 md:mx-4 
             rounded-b-[20px] md:rounded-b-[25px]
             px-4 md:px-8
             flex items-center justify-between

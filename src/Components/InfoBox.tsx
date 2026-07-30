@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { ThemeContextData } from "../Context/ThemeContext";
 
 interface Props {
-    logo?: React.ReactNode
     description: React.ReactNode
     title: React.ReactNode
     button_title: React.ReactNode
@@ -14,7 +13,7 @@ interface Props {
 }
 
 
-const InfoBox: React.FC<Props> = ({ logo, description, title, button_title, button_line_color = "after:bg-black", onClick, className }) => {
+const InfoBox: React.FC<Props> = ({  description, title, button_title, button_line_color = "after:bg-black", onClick, className }) => {
 
     const { theme } = useContext(ThemeContextData)
     return (
@@ -32,7 +31,7 @@ const InfoBox: React.FC<Props> = ({ logo, description, title, button_title, butt
 
             <span
                 className={`mt-3 inline-block uppercase relative font-mono text-sm font-bold
-                    after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+                    after:absolute after:left-0 after:-bottom-1 
                     after:w-0 after:transition-all group-hover:after:w-full
                     ${button_line_color}`}
                                 >

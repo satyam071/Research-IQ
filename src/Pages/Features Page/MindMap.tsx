@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import  { useContext, useEffect, useMemo, useState } from "react";
 
 import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   Position,
   MarkerType,
 } from "@xyflow/react";
@@ -408,7 +407,7 @@ export default function MindMap() {
     });
   }, []);
 
-  const { selectedOption, setSelectedOption } = useOption();
+  const {  setSelectedOption } = useOption();
   const { theme } = useContext(ThemeContextData);
   const { nodes, edges } = useMemo(() => {
     if (!response?.mindmap?.mindMap) {

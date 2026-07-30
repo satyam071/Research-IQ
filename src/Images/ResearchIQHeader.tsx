@@ -160,7 +160,7 @@ export default function ResearchIQHeader() {
   // Layout constants
   const CARD_HEIGHT = 96;   // total card height px
   const BAR_HEIGHT = 18;    // total rainbow bar height (all 6 stripes combined) — thin like prototype
-  const BW = BAR_HEIGHT / N; // each stripe band = 3px, no gap
+   // each stripe band = 3px, no gap
 
   // The outermost stripe (i=0, #97002E) has R = BW*(N-0-0.5) = BW*5.5
   // = 3 * 5.5 = 16.5 — a small tight arc hugging bottom-left, exactly like prototype

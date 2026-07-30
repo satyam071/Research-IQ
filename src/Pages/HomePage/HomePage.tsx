@@ -10,7 +10,7 @@ interface Props {
 
 }
 
-const HomePage: React.FC<Props> = (props) => {
+const HomePage: React.FC<Props> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
