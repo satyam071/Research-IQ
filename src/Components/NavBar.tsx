@@ -81,8 +81,8 @@ const NavBar: React.FC<Props> = () => {
             }`}>
 
             {/* Logo */}
-            <div
-                className={`h-auto transition-all duration-500 ease-in-out
+            <div onClick={()=>{HomeFunc()}}
+                className={`h-auto transition-all duration-500 ease-in-out cursor-pointer
                 ${open
                         ? "w-[10rem] sm:w-[13rem]"
                         : "w-[12rem] sm:w-[15rem] md:w-[18rem]"

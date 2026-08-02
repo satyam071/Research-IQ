@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContextData } from "../Context/ThemeContext";
 import { getSummary } from "../API/GetSummary.api";
 import LoadingPage from "./LoadingPage";
+import Button from "./Button/Button";
 
 interface Props {}
 
@@ -95,12 +96,12 @@ const SummerySection: React.FC<Props> = () => {
             <div className="flex h-full flex-col items-center justify-center gap-5 p-6">
                 <p className="text-center text-red-500 text-sm">{error}</p>
 
-                <button
+                <Button
                     onClick={fetchSummary}
                     className="rounded-lg bg-blue-600 px-5 py-2 text-white transition hover:bg-blue-700"
                 >
                     Retry
-                </button>
+                </Button>
             </div>
         );
     }

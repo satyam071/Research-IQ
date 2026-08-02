@@ -7,6 +7,7 @@ export const getMindmap=async () => {
     "paper_id":paper_id
   }
   const url=BASE_URL+'/mindmap';
+  
 
   const response= await axios.post(url,payload);
 

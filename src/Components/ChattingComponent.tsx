@@ -188,7 +188,7 @@ export default function ChattingComponent() {
             </div>
 
             {/* Input */}
-            <div className={`shrink-0  p-4 
+            <div className={`shrink-0  p-4 text-mono 
                     ${{
                             paper: "bg-[#9BC9A5] text-black",
                             explain: "bg-[#1A1A1A] text-white",
@@ -209,7 +209,7 @@ export default function ChattingComponent() {
                                 sendMessage();
                             }
                         }}
-                        className={`flex-1 rounded-xl border-3 px-4 py-3 outline-none ${Disabled? "border-gray-600":""}`}
+                        className={`flex-1 rounded-xl border-3 px-4 py-3 outline-none font-mono ${Disabled? "border-gray-600":""}`}
                     />
 
                     <button

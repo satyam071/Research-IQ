@@ -13,6 +13,14 @@ interface Props {
 const HomePage: React.FC<Props> = () => {
   const location = useLocation();
   const navigate = useNavigate();
+   useEffect(() => {
+    if (!sessionStorage.getItem("homeReloaded")) {
+      sessionStorage.setItem("homeReloaded", "true");
+      window.location.reload();
+    } else {
+      sessionStorage.removeItem("homeReloaded");
+    }
+  }, []);
 
   useEffect(() => {
     const sectionId = location.state?.scrollTo;
