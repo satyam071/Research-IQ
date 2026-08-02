@@ -32,6 +32,7 @@ const NavBar: React.FC<Props> = () => {
             state: { scrollTo: sectionId },
         });
     }
+    setOpen(false);
 };
 
     const HomeFunc = () => {
@@ -47,6 +48,7 @@ const NavBar: React.FC<Props> = () => {
             behavior: "smooth",
         });
     }
+    setOpen(false);
 };
     const UploadFunc = () => {
     setPdfFile(null);
@@ -59,6 +61,7 @@ const NavBar: React.FC<Props> = () => {
             behavior: "smooth",
         });
     }
+    setOpen(false);
 };
 
     const { theme } = useContext(ThemeContextData);

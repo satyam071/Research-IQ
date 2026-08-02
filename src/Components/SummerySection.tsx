@@ -1,54 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContextData } from "../Context/ThemeContext";
 import { getSummary } from "../API/GetSummary.api";
 import LoadingPage from "./LoadingPage";
 
+interface Props {}
 
-
-
-
-
-// const response = {
-//     "title": "An Area-Efﬁcient FPGA Implementation of a Real-Time Multi-Class Classiﬁer for Binary Images",
-//     "authors": [
-//         "Narges Attarmoghaddam",
-//         "Kin Fun Li"
-//     ],
-//     "keywords": [
-//         "HOG",
-//         "SVM",
-//         "FPGA",
-//         "hardware implementation",
-//         "image classiﬁcation",
-//         "binary image"
-//     ],
-//     "objective": "Developing an area-efﬁcient FPGA implementation of a real-time multi-class classiﬁer for binary images using HOG feature extractor and SVM classiﬁer",
-//     "section_summaries": {
-//         "abstract": "Developing image classiﬁcation modules in embedded systems is a complex task due to limited resources. A multi-class image classiﬁer using HOG feature extractor and SVM classiﬁer is proposed for binary images, improving processing speed and area efﬁciency.",
-//         "introduction": "Image classiﬁcation has many applications, including self-driving vehicles and surveillance systems. However, neural network architectures have high accuracy performance but challenging issues in hardware implementation. Feature-based techniques, such as HOG, are popular but slow due to compute-intensive nature.",
-//         "methodology": "The proposed system combines HOG feature extractor and SVM classiﬁer with two steps of binarization to simplify feature extraction and classiﬁcation computations, reducing hardware resource utilization.",
-//         "results": "Experimental results show that the proposed system speeds up the classiﬁcation process while utilizing fewer hardware resources, with an 11.4% higher classiﬁcation accuracy using the same setting.",
-//         "conclusion": "The proposed area-efﬁcient FPGA implementation of a real-time multi-class classiﬁer for binary images using HOG feature extractor and SVM classiﬁer achieves high accuracy performance and real-time processing speed, overcoming the bottlenecks in hardware implementation."
-//     },
-//     "datasets": [],
-//     "models": [],
-//     "metrics": [],
-//     "key_results": [
-//         "11.4% higher classiﬁcation accuracy using the same setting"
-//     ],
-//     "key_contributions": [
-//         "Proposed two steps of binarization to simplify feature extraction and classiﬁcation computations",
-//         "Combined HOG feature extractor and SVM classiﬁer for high accuracy performance and real-time processing speed"
-//     ],
-//     "limitations": [],
-//     "future_work": []
-// }
-
-
-
-interface Props {
-
-}
 interface SummaryResponse {
     title: string;
     authors: string[];
@@ -65,134 +21,278 @@ interface SummaryResponse {
 }
 
 const SummerySection: React.FC<Props> = () => {
+    const { theme } = useContext(ThemeContextData);
+
     const [response, setResponse] = useState<SummaryResponse | null>(null);
-    const [isGettingSummery, setIsGettingSummery] = useState(false)
+    const [isGettingSummery, setIsGettingSummery] = useState(false);
+    const [showRetry, setShowRetry] = useState(false);
+    const [error, setError] = useState("");
 
-    useEffect(() => {
+    const controllerRef = useRef<AbortController | null>(null);
 
+    const fetchSummary = async () => {
         const paperId = localStorage.getItem("paper_id");
 
-
         if (!paperId) return;
-        setIsGettingSummery(true)
-        getSummary()
-            .then((data) => {
-               
-                setResponse(data);
-            })
-            .finally(() => {
-                setIsGettingSummery(false)
-            });
 
+        // Cancel previous request if it exists
+        controllerRef.current?.abort();
+
+        const controller = new AbortController();
+        controllerRef.current = controller;
+
+        setIsGettingSummery(true);
+        setShowRetry(false);
+        setError("");
+
+        // Timeout after 2 minutes
+        const timeout = setTimeout(() => {
+            controller.abort();
+        }, 120000);
+
+        try {
+            const data = await getSummary(controller.signal);
+
+            clearTimeout(timeout);
+
+            setResponse(data);
+        } catch (err: any) {
+            clearTimeout(timeout);
+
+            if (err.name === "AbortError") {
+                setError(
+                    "The request took longer than 2 minutes. Please try again."
+                );
+            } else {
+                console.error(err);
+                setError("Failed to fetch summary.");
+            }
+
+            setShowRetry(true);
+        } finally {
+            setIsGettingSummery(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchSummary();
+
+        return () => {
+            controllerRef.current?.abort();
+        };
     }, []);
-    const { theme } = useContext(ThemeContextData)
+
+    if (isGettingSummery) {
+        return (
+            <LoadingPage>
+                LOADING SUMMARY
+            </LoadingPage>
+        );
+    }
+
+    if (showRetry) {
+        return (
+            <div className="flex h-full flex-col items-center justify-center gap-5 p-6">
+                <p className="text-center text-red-500 text-sm">{error}</p>
+
+                <button
+                    onClick={fetchSummary}
+                    className="rounded-lg bg-blue-600 px-5 py-2 text-white transition hover:bg-blue-700"
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
 
     return (
-        <>
-            {isGettingSummery ? (
-                <LoadingPage >
-                    LOADING SUMMARY
+        <div className="p-6 font-semibold lg:flex-1 lg:min-h-0 lg:overflow-y-auto font-league">
+            {/* Title */}
+            {response?.title && (
+                <h2 className="tracking-[1px] text-xl mb-2 text-center">
+                    {response.title}
+                </h2>
+            )}
 
-                </LoadingPage>
-            ) : (
-                <div className="p-6 font-semibold lg:flex-1 lg:min-h-0 lg:overflow-y-auto font-league">
-                    {/* Title */}
-                    {response?.title && (
-                        <h2 className="tracking-[1px] text-xl mb-2 text-center">
-                            {response.title}
-                        </h2>
-                    )}
-
-                    {/* Authors */}
-                    {response?.authors && (
-                        <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
-                            {response?.authors?.map((authors:string) => (
-                                <div key={authors} className="px-2 border-1 border-white">
-                                    {authors}
-                                </div>
-                            ))}
+            {/* Authors */}
+            {response?.authors && (
+                <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
+                    {response.authors.map((author) => (
+                        <div
+                            key={author}
+                            className="px-2 border border-white"
+                        >
+                            {author}
                         </div>
-                    )}
-
-                    {/* Keywords */}
-                    {response?.keywords && (
-                        <h2 className="tracking-[3px] text-xs mb-5 text-center">
-                            KEYWORDS
-                        </h2>
-                    )}
-                    {response?.keywords && (
-                        <div className="space-y-5">
-                            {response?.keywords?.map((keywords:string) => (
-                                <div
-                                    key={keywords}
-                                    className={`border-[3px] p-4 text-[11px] ${theme === "light" ? "border-black" : "border-[#4d4d4d]"
-                                        }`}
-                                >
-                                    {keywords}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {response?.section_summaries && (
-                        <div>
-                            <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
-                                Summary
-                            </h2>
-                            <div className="space-y-10 text-[11px] leading-5">
-                                {Object.entries(response?.section_summaries ?? {}).map(
-                                    ([key, value]: [string, string]) => (
-                                        <div key={key}>
-                                            <h3 className="font-bold uppercase text-center border-b-1">
-                                                {key}
-                                            </h3>
-                                            <p className="text-center tracking-normal">{value}</p>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {response?.datasets && response?.datasets.length > 0 && (
-                        <>
-                            <h3 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
-                                Datasets
-                            </h3>
-                            <div>
-                                <ul className="text-xs items-center justify-center mt-2 list-disc flex flex-row flex-wrap gap-3">
-                                    {response?.datasets?.map((datasets: string) => (
-                                        <li className="ml-2" key={datasets}>
-                                            {datasets}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </>
-                    )}
-
-                    {response?.models && response?.models.length > 0 && (
-                        <>
-                            <h2 className="tracking-[1px] text-xl mt-5 mb-3 text-center">
-                                MODELS
-                            </h2>
-                            <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
-                                {response?.models?.map((models: string) => (
-                                    <div key={models} className="px-2 border-1 border-white">
-                                        {models}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
+                    ))}
                 </div>
             )}
-        </>
+
+            {/* Keywords */}
+            {response?.keywords && (
+                <>
+                    <h2 className="tracking-[3px] text-xs mb-5 text-center">
+                        KEYWORDS
+                    </h2>
+
+                    <div className="space-y-5">
+                        {response.keywords.map((keyword) => (
+                            <div
+                                key={keyword}
+                                className={`border-[3px] p-4 text-[11px] ${
+                                    theme === "light"
+                                        ? "border-black"
+                                        : "border-[#4d4d4d]"
+                                }`}
+                            >
+                                {keyword}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {/* Summary */}
+            {response?.section_summaries && (
+                <div>
+                    <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                        Summary
+                    </h2>
+
+                    <div className="space-y-10 text-[11px] leading-5">
+                        {Object.entries(response.section_summaries).map(
+                            ([key, value]) => (
+                                <div key={key}>
+                                    <h3 className="font-bold uppercase text-center border-b">
+                                        {key}
+                                    </h3>
+
+                                    <p className="text-center tracking-normal">
+                                        {value}
+                                    </p>
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* Datasets */}
+            {response?.datasets.length ? (
+                <>
+                    <h3 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                        Datasets
+                    </h3>
+
+                    <ul className="text-xs mt-2 list-disc flex flex-row flex-wrap justify-center gap-3">
+                        {response.datasets.map((dataset) => (
+                            <li key={dataset}>{dataset}</li>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
+
+            {/* Models */}
+            {response?.models.length ? (
+                <>
+                    <h2 className="tracking-[1px] text-xl mt-5 mb-3 text-center">
+                        MODELS
+                    </h2>
+
+                    <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
+                        {response.models.map((model) => (
+                            <div
+                                key={model}
+                                className="px-2 border border-white"
+                            >
+                                {model}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : null}
+
+            {/* Metrics */}
+            {response?.metrics.length ? (
+                <>
+                    <h2 className="tracking-[1px] text-xl mt-5 mb-3 text-center">
+                        METRICS
+                    </h2>
+
+                    <div className="text-[11px] leading-7 mb-5 flex flex-row justify-center gap-1 flex-wrap">
+                        {response.metrics.map((metric) => (
+                            <div
+                                key={metric}
+                                className="px-2 border border-white"
+                            >
+                                {metric}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : null}
+
+            {/* Key Results */}
+            {response?.key_results.length ? (
+                <>
+                    <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                        Key Results
+                    </h2>
+
+                    <ul className="list-disc text-[11px] space-y-2 pl-5">
+                        {response.key_results.map((result) => (
+                            <li key={result}>{result}</li>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
+
+            {/* Key Contributions */}
+            {response?.key_contributions.length ? (
+                <>
+                    <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                        Key Contributions
+                    </h2>
+
+                    <ul className="list-disc text-[11px] space-y-2 pl-5">
+                        {response.key_contributions.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
+
+            {/* Limitations */}
+            {response?.limitations.length ? (
+                <>
+                    <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                        Limitations
+                    </h2>
+
+                    <ul className="list-disc text-[11px] space-y-2 pl-5">
+                        {response.limitations.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
+
+            {/* Future Work */}
+            {response?.future_work.length ? (
+                <>
+                    <h2 className="font-archivo tracking-[1px] text-xl mt-10 mb-3 uppercase font-extrabold text-center">
+                        Future Work
+                    </h2>
+
+                    <ul className="list-disc text-[11px] space-y-2 pl-5">
+                        {response.future_work.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
+        </div>
     );
 };
 
 export default SummerySection;
-
-
-
-

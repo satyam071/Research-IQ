@@ -15,11 +15,11 @@ export const getAnswers = async (
     paper_id: id
   };
 
-  console.log("Sending:", payload);
+  
 
   const response = await axios.post(url, payload);
 
-  console.log(response.data);
+  
 
   return response.data;
 };

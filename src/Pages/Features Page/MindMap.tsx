@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import {
   ReactFlow,
@@ -308,18 +308,23 @@ const getRandomColour = () => {
   return values[Math.floor(Math.random() * values.length)];
 };
 
-/******************************************************
- * Layout
- ******************************************************/
 
-const dagreGraph = new dagre.graphlib.Graph();
-
-dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const nodeWidth = 130;
 const nodeHeight = 60;
 
 function buildGraph(root: any) {
+  const dagreGraph = new dagre.graphlib.Graph();
+
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+  const isMobile = window.innerWidth < 768;
+
+  dagreGraph.setGraph({
+    rankdir: isMobile ? "LR" : "TB",
+    nodesep: isMobile ? 25 : 60,
+    ranksep: isMobile ? 40 : 120,
+  });
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
@@ -397,7 +402,7 @@ function buildGraph(root: any) {
 
 export default function MindMap() {
   const [response, setResponse] = useState<any>(null);
-  const [isArrived, setIsArrived]=useState<boolean>(false);
+  const [isArrived, setIsArrived] = useState<boolean>(false);
 
   useEffect(() => {
     getMindmap().then((res) => {
@@ -407,7 +412,7 @@ export default function MindMap() {
     });
   }, []);
 
-  const {  setSelectedOption } = useOption();
+  const { setSelectedOption } = useOption();
   const { theme } = useContext(ThemeContextData);
   const { nodes, edges } = useMemo(() => {
     if (!response?.mindmap?.mindMap) {
@@ -420,46 +425,49 @@ export default function MindMap() {
   return (
     <div className="h-screen text-black">
       {!isArrived ? (
-                <LoadingPage classname={`${theme === "light"
-                ? "text-black"
-                : "text-white"
-            }`} >
-                    ANALYZING MINDMAP
-                </LoadingPage>
+        <LoadingPage classname={`${theme === "light"
+          ? "text-black"
+          : "text-white"
+          }`} >
+          ANALYZING MINDMAP
+        </LoadingPage>
 
-            ) : (
-              <>
-      
-                  <div className=" text-center m-3 ">
-                    <button
-                      onClick={() => { setSelectedOption("null") }}
-                      className={` px-5 py-1 rounded-sm font-bold   px-8 py-2 font-mono font-bold    hover:shadow-[6px_6px_0px_#000] transition rounded-none cursor-pointer
+      ) : (
+        <>
+
+          <div className=" text-center m-3 ">
+            <button
+              onClick={() => { setSelectedOption("null") }}
+              className={` px-5 py-1 rounded-sm font-bold   px-8 py-2 font-mono font-bold    hover:shadow-[6px_6px_0px_#000] transition rounded-none cursor-pointer
                                             ${theme == 'light' ?
-                          " hover:shadow-[6px_6px_0px_#000] "
-                          : "hover:shadow-[6px_6px_0px_#fff] "
+                  " hover:shadow-[6px_6px_0px_#000] "
+                  : "hover:shadow-[6px_6px_0px_#fff] "
 
-                        } ,
+                } ,
                                             ${theme === "light"
-                          ? "bg-[#E9D6B4] shadow-[0px_0px_5px_#AD84AD]"
-                          : "bg-[#066E76] text-[#E9D6B4]  "
-                        }
+                  ? "bg-[#E9D6B4] shadow-[0px_0px_5px_#AD84AD]"
+                  : "bg-[#066E76] text-[#E9D6B4]  "
+                }
                               
                               
                               
                               `}>Switch Function</button>
-                  </div>
-                  <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    fitView
-                  >
+          </div>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            fitView
+            fitViewOptions={{
+              padding: 0.3,
+            }}
+          >
 
-                    <Background />
-                    <Controls className="bg-black text-black" />
-                    {/* <MiniMap className="bg-black text-black" zoomable pannable /> */}
-                  </ReactFlow>
-            </>
-            )}
+            <Background />
+            <Controls className="bg-black text-black" />
+            {/* <MiniMap className="bg-black text-black" zoomable pannable /> */}
+          </ReactFlow>
+        </>
+      )}
     </div>
   );
 }

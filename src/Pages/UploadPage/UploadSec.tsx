@@ -1,4 +1,4 @@
-import  { useContext, useState } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { UploadCloud, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import { ThemeContextData } from "../../Context/ThemeContext";
@@ -6,6 +6,7 @@ import { UploadContextData } from "../../Context/UploadContext";
 import { UploadProviderContextData } from "../../Context/UploadProviderContext";
 import { sendPdf } from "../../API/Upload.api"
 import LoadingPage from "../../Components/LoadingPage";
+import LoadingTicTacToe from "../../Components/tic_tac_toe.tsx/LoadingTicTacToe";
 
 
 const UploadSec = () => {
@@ -17,10 +18,12 @@ const UploadSec = () => {
     const { theme } = useContext(ThemeContextData);
     const { setIsUploaded } = useContext(UploadContextData);
     const [isUploading, setIsUploading] = useState(false);
+    const controllerRef = useRef<AbortController | null>(null);
+    const timeoutRef = useRef<number | null>(null);
+    const [showGame, setShowGame] = useState(false);
 
 
-    const handleFiles = (incomingFiles: FileList | null) => {
-        // console.log(incomingFiles)
+    const handleFiles = async (incomingFiles: FileList | null) => {
         if (!incomingFiles) return;
 
         const selectedFile = incomingFiles[0];
@@ -29,18 +32,70 @@ const UploadSec = () => {
             alert("Please upload a PDF file.");
             return;
         }
+
+        // Cancel previous upload if one exists
+        controllerRef.current?.abort();
+
+        const controller = new AbortController();
+        controllerRef.current = controller;
+
         setIsUploading(true);
-        sendPdf(selectedFile).then(() => {
-            setIsUploaded(true)
+
+        const gameTimer = setTimeout(() => {
+            setShowGame(true);
+        }, 5000);
+
+        timeoutRef.current = window.setTimeout(() => {
+            controller.abort();
+        }, 300000); // 5 Minutes
+
+        try {
+            await sendPdf(selectedFile, controller.signal);
+
             setPdfFile(selectedFile);
-        }).catch((err) => {
-            console.log(err)
-            alert("Uploading Failed, please try again!")
-        }).finally(() => {
-            setIsUploading(false)
-        });
-       
+            setIsUploaded(true);
+        } catch (err: any) {
+            console.error(err);
+
+            if (
+                err.name === "CanceledError" ||
+                err.name === "AbortError" ||
+                err.code === "ERR_CANCELED"
+            ) {
+                alert(
+                    "Upload timed out after 2 minutes. Please try again."
+                );
+            } else {
+                alert("Uploading Failed. Please try again!");
+            }
+
+            // Reset everything
+            setPdfFile(null);
+            setIsUploaded(false);
+
+            localStorage.removeItem("paper_id");
+        } finally {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+            clearTimeout(gameTimer);
+            setShowGame(false);
+            setIsUploading(false);
+
+            controllerRef.current = null;
+            setIsUploading(false);
+        }
     };
+
+    useEffect(() => {
+        return () => {
+            controllerRef.current?.abort();
+
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
 
 
 
@@ -48,7 +103,23 @@ const UploadSec = () => {
         <div className="relative">
             {isUploading ? (
                 <LoadingPage>
-                    ANALYZING PAPER
+
+                    <div className="flex flex-col items-center">
+
+                        <h2 className="text-xl font-bold tracking-widest">
+                            ANALYZING PAPER
+                        </h2>
+
+                        <p className="mt-2 text-sm opacity-70">
+                            Extracting text...
+                        </p>
+
+                        {showGame && (
+                            <LoadingTicTacToe />
+                        )}
+
+                    </div>
+
                 </LoadingPage>
 
             ) : (

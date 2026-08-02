@@ -6,9 +6,9 @@ import { BASE_URL } from "./BASE_URL";
 
 
 
-export const getSummary = async () => {
+export const getSummary = async (signal?: AbortSignal) => {
     
-    console.log("summery is running")
+    
     const paperId = localStorage.getItem("paper_id");
     
     if (!paperId) {
@@ -16,12 +16,12 @@ export const getSummary = async () => {
     }
     
     const URL = `${BASE_URL}/paper/${paperId}/summary/`;
-    console.log(paperId)
+   
 
     try {
-        const response = await axios.get(URL);
-
-        console.log("to get summery url: ",URL);
+        const response = await axios.get(URL, {
+            signal,
+        });
 
         return response.data;
     } catch (error) {
